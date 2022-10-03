@@ -35,14 +35,13 @@ const Layout = () => {
 
     return (
         <>
-            <CssBaseline />
             <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
 
             <Navigation PaperProps={{ style: { width: drawerWidth } }} sx={{ display: { sm: 'block', xs: 'none' } }} onComponentChange={fromNavigatorComponent} />
             </Box>
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Header onDrawerToggle={handleDrawerToggle} currentcomponentname={navigatorElement} />
-            <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
+            <Box component="main" sx={{ flex: 1, py: 6, px: 4 }} >
                 <main className="App">
                   <Outlet />
                 </main>

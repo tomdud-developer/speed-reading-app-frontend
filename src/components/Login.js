@@ -6,12 +6,14 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import axios from '../api/axios';
+import { useTheme } from '@mui/material/styles';
 
 const LOGIN_URL = 'api/login';
 
 const Login = () => {
+    const theme = useTheme();
     const { setAuth } = useAuth();
-
+    console.log("theme LOGIN",theme)
     const userRef = React.useRef();
     const errRef = React.useRef();
     const navigate = useNavigate();
@@ -33,9 +35,9 @@ const Login = () => {
         e.preventDefault();
        
         try {
-            var querystring = require('querystring');
+            //var querystring = require('querystring');
             const response = await axios.post(LOGIN_URL,
-                querystring.stringify({
+                JSON.stringify({
                         username: user, //gave the values directly for testing
                         password: pwd,
                 }), {
@@ -68,8 +70,8 @@ const Login = () => {
         }
     }
 
-    const paperStyle={padding :40,height:400,width:400, margin:"20px auto"}
-    const avatarStyle={backgroundColor:'#1bbd7e'}
+    const paperStyle={padding :40,height:500,width:400, margin:"20px auto"}
+    const avatarStyle={backgroundColor:'secondary.main' }
     const btnstyle={margin:'8px 0'}
 
 
@@ -80,15 +82,16 @@ const Login = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh', backgroundColor: '#081627'}}
+        style={{ minHeight: '100vh' }} //081627
+        
         >
             <Grid item align='center'>
-                <Paper elevation={10} style={paperStyle} >
+                <Paper elevation={10} style={paperStyle} sx={{backgroundColor: 'primary.light'}}>
                     <Grid align='center'>
-                        <Avatar style={avatarStyle}><LockOpenIcon/></Avatar>
-                        <h2 color="primary">Zaloguj się</h2>
+                        <Avatar sx={avatarStyle}><LockOpenIcon/></Avatar>
+                        <Typography sx={{color: "primary.text", padding: '10px'}} variant="h5" >Zaloguj się</Typography>
                     </Grid>
-                        <TextField id="username" required fullWidth label="Login"  value={user} onChange={(e) => setUser(e.target.value)} ref={userRef} sx={{marginBottom: 3}}/>
+                        <TextField color='primary' id="username" required fullWidth label="Login"  value={user} onChange={(e) => setUser(e.target.value)} ref={userRef} sx={{marginBottom: 3}}  />
                         <TextField type='password' id="password" required fullWidth label="Hasło"  value={pwd} onChange={(e) => setPwd(e.target.value)} />
                     <FormControlLabel
                         control={
@@ -99,7 +102,7 @@ const Login = () => {
                         }
                         label="Remember me"
                     />
-                    <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
+                    <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
                     <Typography > Do you have an account ?
                         <Link to="/register">Sign Up</Link>
                     </Typography>

@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { deepOrange, green } from '@mui/material/colors';
 import useAuth from '../hooks/useAuth';
-const lightColor = 'rgba(255, 255, 255, 0.7)';
+
 
 function Header(props) {
   const { onDrawerToggle } = props;
@@ -48,9 +48,14 @@ function Header(props) {
 
   return (
     <React.Fragment >
-      <AppBar  position="sticky" elevation={0}>
+      <AppBar position="sticky" elevation={0} color='primary' >
         <Toolbar >
           <Grid container spacing={1} alignItems="center">
+            <Grid item xs>
+              <Typography color="inherit" variant="h5" component="h1">
+                {props.currentcomponentname}
+              </Typography>
+            </Grid>
             <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
               <IconButton
                 color="inherit"
@@ -63,7 +68,7 @@ function Header(props) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <Typography sx={{fontWeight: 'bold', border: 1, borderColor: 'primary.airfoil', borderRadius: 1, padding: '3px' }}>
+              <Typography sx={{fontWeight: 'bold', border: 1, borderRadius: 1, padding: '3px' }}>
                 {date}
               </Typography>
             </Grid>
@@ -90,32 +95,6 @@ function Header(props) {
         elevation={0}
         sx={{ zIndex: 0 }}
       >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h5" component="h1">
-                {props.currentcomponentname}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button
-                sx={{ borderColor: lightColor }}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
       </AppBar>
     </React.Fragment>
   );

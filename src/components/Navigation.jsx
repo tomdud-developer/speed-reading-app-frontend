@@ -13,6 +13,7 @@ import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Link } from "react-router-dom";
 import Image from 'mui-image'
+import { useTheme } from '@mui/material';
 
 
 let categories = [
@@ -95,7 +96,7 @@ export default function Navigation(props) {
           </Link>
         </ListItem>
         {categoriesHook.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: '#101F33' }}>
+          <Box key={id} variant="secondary">
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
