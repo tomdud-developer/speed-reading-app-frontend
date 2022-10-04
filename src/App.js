@@ -9,10 +9,10 @@ import RequireAuth from './components/RequireAuth';
 import Dashboard from './components/Dashboard';
 import { bgcolor } from '@mui/system';
 import {red} from '@mui/material/colors';
-//import theme from './theme/theme';
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline, Paper } from '@mui/material';
+import Register from './components/Register';
 
 export default function App() {
 
@@ -61,6 +61,7 @@ export default function App() {
           <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'primary.dark'}} >
             <Routes>
               <Route path="/login" element={<Login />}/>
+              <Route path="/register" element={<Register />} />
               <Route path="/" element={<Layout />}>
                 <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                   <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
