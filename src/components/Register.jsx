@@ -18,7 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const LOGIN_URL = 'api/register';
+const LOGIN_URL = 'api/v1/registration';
 
 const Register = () => {
 

@@ -1,8 +1,9 @@
 import axios from 'axios';
-const BASE_URL = `http://${process.env.REACT_APP_SECRET_IP}:8080`;
+const t = true;
+const BASE_URL = t ? `http://${process.env.REACT_APP_SECRET_IP}` : `http://localhost:8080`;
 
 export default axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
 });
 
 export const axiosPrivate = axios.create({
