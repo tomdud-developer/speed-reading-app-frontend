@@ -14,29 +14,35 @@ import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Link } from "react-router-dom";
 import Image from 'mui-image'
 import { useTheme } from '@mui/material';
-
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 let categories = [
   {
-    id: 'Sprawy',
+    id: 'Mierniki',
     children: [
-      {id: 'Formularz', icon: <PeopleIcon />, active: false, path: '/case-form'},
-      { id: 'Baza danych', icon: <DnsRoundedIcon />, active: false, path: '/case-table' },
-      { id: 'Generator oferty', icon: <PhonelinkSetupIcon />, active: false, path: '/offer-generator' },
+      {id: 'Mierniki', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/case-form'},
+      { id: 'Miernik prędkości czytania', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
+      { id: 'Miernik zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/offer-generator' },
     ],
   },
   {
-    id: 'Firmy',
+    id: 'Czytanie ze wskaźnikiem',
     children: [
-      {id: 'Formularz', icon: <PeopleIcon />, active: false, path: '/company-form'},
-      { id: 'Baza danych', icon: <DnsRoundedIcon />, active: false, path: '/company-table' },
+      {id: '1', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/company-form'},
+      { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/company-table' },
     ],
   },
   {
-    id: 'Kontakty',
+    id: 'Pole widzenia',
     children: [
-      {id: 'Formularz', icon: <PeopleIcon />, active: false, active: false, path: '/worker-form'},
-      { id: 'Baza danych', icon: <DnsRoundedIcon />, active: false, path: '/worker-table' },
+      {id: '1', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/worker-form'},
+      { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/worker-table' },
+    ],
+  },
+  {
+    id: 'Ustawienia',
+    children: [
+      {id: '1', icon: <SettingsApplicationsIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/settings'},
     ],
   },
 ];
@@ -53,6 +59,7 @@ const item = {
 
 const itemCategory = {
   boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
+  color: 'rgba(255, 255, 255, 0.7)',
   py: 1.5,
   px: 3,
 };
@@ -82,15 +89,15 @@ export default function Navigation(props) {
   }  
   
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant="permanent" {...other}  sx={{borderColor: 'green', }}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
-        <Image src={process.env.PUBLIC_URL + '/img/logo_planetfan.png'} />
+          <Image src={process.env.PUBLIC_URL + '/logo.png'} />
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
           <Link to={'/dashboard'}>
             <ListItemButton selected={dasboardActive} sx={item} onClick={() => { props.onComponentChange(`Panel główny`); toogleActiveCategory("dashboard", "dashboard"); setDashboardActive(true) }}>
-              <ListItemIcon> <HomeIcon /> </ListItemIcon>
+              <ListItemIcon> <HomeIcon sx={{color: 'secondary.main'}} /> </ListItemIcon>
               <ListItemText>Panel główny</ListItemText>
             </ListItemButton>
           </Link>
@@ -104,7 +111,7 @@ export default function Navigation(props) {
                     <ListItem disablePadding key={childId}>
                         <Link to={path}>
                             <ListItemButton selected={active} sx={item} onClick={() => {props.onComponentChange(`${id}: ${childId}`); toogleActiveCategory(id, childId) }}>
-                                <ListItemIcon >{icon}</ListItemIcon>
+                                <ListItemIcon>{icon}</ListItemIcon>
                                 <ListItemText>{childId}</ListItemText>
                             </ListItemButton>
                         </Link>

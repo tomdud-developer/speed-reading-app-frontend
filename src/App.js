@@ -13,6 +13,8 @@ import {red} from '@mui/material/colors';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline, Paper } from '@mui/material';
 import Register from './components/Register';
+import Speedmeter from './components/speedmeter/Speedmeter';
+import Settings from './components/settings/Settings';
 
 export default function App() {
 
@@ -20,20 +22,26 @@ export default function App() {
     mode: "dark",
     palette: {
       primary: {
-        main: '#001b29',
-        text: '#fff'
+        main: '#263A52',
+        text: '#fff',
+        darkest: '#1A2027'
       },
       secondary: {
         main: '#66bb6a',
       },
       three: '#101F33',
-      background: '#263238'
+      background: '#263A52'
     },
     typography: {
       allVariants: {
         fontFamily: 'Courgette',
         color: '#fff'
       },
+      book: {
+        color: '#000',
+        fontFamily: 'Arial'
+
+      }
     },
     tonalOffset: 0.2,
     shape: {
@@ -66,6 +74,9 @@ export default function App() {
                 <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                   <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                     <Route path="/dashboard/" exact element={<Dashboard />} />
+                    <Route path="/speed-meter/" exact element={<Speedmeter />} />
+                    <Route path="/settings/" exact element={<Settings />} />
+                    
                   </Route>
                 </Route>
               </Route>
