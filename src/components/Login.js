@@ -2,6 +2,7 @@ import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Grid, Paper, TextField, Stack, Button, Typography, Avatar, Box} from '@mui/material';
+import Image from 'mui-image';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -36,11 +37,11 @@ const Login = () => {
        
         try {
             //var querystring = require('querystring');
+            var bodyFormData = new FormData();
+            bodyFormData.append('username', user);
+            bodyFormData.append('password', pwd);
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({
-                        username: user, //gave the values directly for testing
-                        password: pwd,
-                }), {
+                bodyFormData, {
                   headers: { 
                     "Content-Type": "application/x-www-form-urlencoded",
                   },
@@ -51,8 +52,9 @@ const Login = () => {
             const roles = response.data.roles.replace('[','').replace(']','').replace(/\s/g,'').split(",");
             const firstname = response.data.firstname;
             const lastname = response.data.lastname;
+            const email = response.data.email;
             const appuserid = Number(response.data.appuserid);
-            setAuth({ user, pwd, roles, accessToken, firstname, lastname, appuserid });
+            setAuth({ user, pwd, roles, accessToken, firstname, lastname, appuserid, email });
             setUser('');
             setPwd('');
             navigate("/dashboard", { replace: true });
@@ -76,15 +78,17 @@ const Login = () => {
 
 
     return (
+       
         <Grid
         container
         spacing={0}
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh' }} //081627
-        
         >
+            <Grid item align='center'>
+            <Image src={process.env.PUBLIC_URL + '/logo.png'} height="300px" width="300px"/>
+            </Grid>
             <Grid item align='center'>
                 <Paper elevation={10} style={paperStyle} sx={{backgroundColor: 'primary.light'}}>
                     <Grid align='center'>
@@ -103,13 +107,14 @@ const Login = () => {
                         label="Remember me"
                     />
                     <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
-                    <Typography > Do you have an account ?
-                        <Link to="/register">Sign Up</Link>
+                    <Typography > Nie masz konta?
+                        <Link variant="inherit" color="inherit" to="/register">Zarejestruj się</Link>
                     </Typography>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 </Paper>
             </Grid>
         </Grid>
+
     )
 }
 

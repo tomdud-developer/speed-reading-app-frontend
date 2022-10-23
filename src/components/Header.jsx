@@ -37,7 +37,7 @@ function Header(props) {
   }
 
   function checkTime(i) {
-    if (i.length < 2) {i = "0" + i};  // add zero in front of numbers < 10
+    if (i.length < 2) {i = "0" + i}; 
     return i;
   }
   
@@ -48,7 +48,7 @@ function Header(props) {
 
   return (
     <React.Fragment >
-      <AppBar position="sticky" elevation={0} color='primary' >
+      <AppBar position="sticky" elevation={0} sx={{bgcolor: 'primary.dark'}} >
         <Toolbar >
           <Grid container spacing={1} alignItems="center">
             <Grid item xs>
@@ -73,7 +73,7 @@ function Header(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Tooltip title="Alerts • No alerts">
+              <Tooltip title="Wiadomości">
                 <IconButton color="inherit">
                   <NotificationsIcon />
                 </IconButton>

@@ -23,8 +23,8 @@ const Layout = () => {
   
   function Copyright() {
     return (
-      <Typography variant="body2" color="text.secondary" align="center">
-        {'Copyright © Tomasz Dudzik'}
+      <Typography variant="body2" align="center">
+        {'Copyright © Tomasz Dudzik '}
         <Link color="inherit">
           Speed Reading App
         </Link>{' '}
@@ -36,19 +36,18 @@ const Layout = () => {
     return (
         <>
             <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-
-            <Navigation PaperProps={{ style: { width: drawerWidth } }} sx={{ display: { sm: 'block', xs: 'none' } }} onComponentChange={fromNavigatorComponent} />
+              <Navigation PaperProps={{ style: { width: drawerWidth } }} sx={{ display: { sm: 'block', xs: 'none' } }} onComponentChange={fromNavigatorComponent} />
             </Box>
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <Header onDrawerToggle={handleDrawerToggle} currentcomponentname={navigatorElement} />
-            <Box component="main" sx={{ flex: 1, py: 6, px: 4 }} >
-                <main className="App">
-                  <Outlet />
-                </main>
-            </Box>
-            <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
-              <Copyright />
-            </Box>
+              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <Header onDrawerToggle={handleDrawerToggle} currentcomponentname={navigatorElement} />
+              <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: 'primary.main'}} >
+                  <main className="App">
+                    <Outlet />
+                  </main>
+              </Box>
+              <Box component="footer" sx={{ p: 2, bgcolor: '#' }}>
+                <Copyright />
+              </Box>
             </Box>
         </>
     )

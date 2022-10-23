@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { Grid, Paper, TextField, Stack, Button, Typography, Avatar, Box} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -73,7 +74,7 @@ const Register = () => {
     }
 
     const paperStyle={padding :40,height:700,width:600, margin:"20px auto"}
-    const avatarStyle={backgroundColor:'secondary.main' }
+    const avatarStyle={backgroundColor:'secondary.main', height:"60px", width:"60px" }
     const btnstyle={margin:'8px 0'}
 
 
@@ -90,7 +91,7 @@ const Register = () => {
                 <Grid item align='center'>
                     <Paper elevation={10} style={paperStyle} sx={{backgroundColor: 'primary.light'}}>
                         <Grid align='center'>
-                            <Avatar sx={avatarStyle}><LockOpenIcon/></Avatar>
+                            <Avatar sx={avatarStyle}><AppRegistrationIcon sx={{fontSize: '50px'}}/></Avatar>
                             <Typography sx={{color: "primary.text", padding: '10px'}} variant="h5" >Zarejestruj się</Typography>
                         </Grid>
                         <Stack>
@@ -98,11 +99,11 @@ const Register = () => {
                             <TextField id="lastname" required fullWidth label="Nazwisko" value={formData.lastname} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
                             <TextField id="username" required fullWidth label="Login" value={formData.username} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
                             <TextField id="email" required fullWidth label="E-mail" value={formData.email} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
-                            <TextField id="password" required type="password" label="Hasło" value={formData.email} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
+                            <TextField id="password" required type="password" label="Hasło" value={formData.password} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
                         </Stack>
                         <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
-                        <Typography > Do you have an account ?
-                            <Link to="/register">Sign Up</Link>
+                        <Typography > Przejdź do logowania  
+                            <Link to="/login">Logowanie</Link>
                         </Typography>
                         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     </Paper>
@@ -114,15 +115,17 @@ const Register = () => {
                 keepMounted
                 onClose={() => setOpenDialog(false)}
             >
-                <DialogTitle>{"Dokonałeś rejestracji"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Wysłano link aktywacyjny na mail <b>{formData.email}</b>. Potwierdź rejestrację konta klikając w link.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => {setOpenDialog(false); navigate("/login", { replace: true });}}>Przejdź do logowania</Button>
-                </DialogActions>
+                <Paper elevation={20} sx={{backgroundColor: 'primary.light'}}>
+                    <DialogTitle>{"Dokonałeś rejestracji"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Wysłano link aktywacyjny na mail <b>{formData.email}</b>. Potwierdź rejestrację konta klikając w link.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {setOpenDialog(false); navigate("/login", { replace: true });}}>Przejdź do logowania</Button>
+                    </DialogActions>
+                </Paper>
             </Dialog>
         </>
     )
