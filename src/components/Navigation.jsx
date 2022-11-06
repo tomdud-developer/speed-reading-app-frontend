@@ -26,23 +26,23 @@ let categories = [
     ],
   },
   {
-    id: 'Czytanie ze wskaźnikiem',
+    id: 'Percepcja wzrokowa',
     children: [
-      {id: '1', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/company-form'},
+      {id: 'Ćwiczenie znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
       { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/company-table' },
     ],
   },
   {
-    id: 'Pole widzenia',
+    id: 'Czytanie ze wskaźnikiem',
     children: [
-      {id: '1', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/worker-form'},
+      {id: 'Podstawy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/pointer-basic'},
       { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/worker-table' },
     ],
   },
   {
     id: 'Ustawienia',
     children: [
-      {id: '1', icon: <SettingsApplicationsIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/settings'},
+      {id: 'Ustawienia Aplikacji', icon: <SettingsApplicationsIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/settings'},
     ],
   },
 ];

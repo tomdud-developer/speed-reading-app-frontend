@@ -52,7 +52,7 @@ export default function Settings() {
                         </Stack>
                     </Paper>
                 </Grid>
-                <Grid xs={2} sm={4} md={4} key={1}>
+                <Grid xs={2} sm={4} md={4} key={2}>
                     <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
                         <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Twój PDF</FormLabel>
                         <Stack>

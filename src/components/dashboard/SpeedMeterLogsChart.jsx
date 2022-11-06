@@ -1,17 +1,24 @@
 import React, { PureComponent } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Label, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Box } from '@material-ui/core';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useTheme } from '@mui/material';
+import useAuth from '../../hooks/useAuth';
 
 export default function SpeedMeterLogsChart(props) {
-
+  
+  const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = React.useState({});
   const theme = useTheme();
 
   React.useEffect(() => {
-    axiosPrivate.get(`/api/v1/speed-meter-log/get/1`).then( (result) => setData(result.data));
+    axiosPrivate.get(`/api/v1/speed-meter-log/get/${auth.appuserid}`).then(
+        (result) => {
+          result.data = result.data.map( da => ({...da, date: da.date.split("T")[0]}))
+          setData(result.data);
+        }
+      );
   }, []);
 
 
@@ -20,7 +27,7 @@ export default function SpeedMeterLogsChart(props) {
     <ResponsiveContainer width="100%" height="100%">
       <Box sx={{bgcolor: '#fff'}}>
       <AreaChart
-        width={500}
+        width={1000}
         height={400}
         data={data}
         margin={{

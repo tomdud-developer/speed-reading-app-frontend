@@ -26,7 +26,7 @@ export default function Dashboard() {
                   <GaugaeChartLastSpeedMeterLog />
                 </Item>
             </Grid>
-            <Grid xs={2} sm={4} md={4} key={2}>
+            <Grid xs={2} sm={4} md={6} key={2}>
               <Item>
                 <SpeedMeterLogsChart />
               </Item>

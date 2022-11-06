@@ -14,7 +14,6 @@ import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { makeStyles } from '@material-ui/core';
-import Stopwatch from './Stopwatch.jsx';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -25,6 +24,11 @@ import axios from 'axios';
 import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
+import Tween from 'rc-tween-one';
+import ReactDom from 'react-dom';
+import TweenOne from 'rc-tween-one';
+import PathPlugin from 'rc-tween-one/lib/plugin/PathPlugin';
+TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -52,7 +56,7 @@ const useStyles = makeStyles(() => ({
 
 
 
-export default function Speedmeter() {
+export default function PointerBasic() {
     
     const getText = (page) => {
         let splited = sampletext.split(" ");
@@ -70,9 +74,9 @@ export default function Speedmeter() {
     const [time, setTime] = React.useState(0);
     const [openDialog, setOpenDialog] = React.useState(false);
     const { auth } = useAuth();
-    
+    const [path, setPath] = React.useState(`M 0 0`);
     const handleClose = () => {setOpenDialog(false)};
-
+    const [paused, setPaused] = React.useState(true);
 
     React.useEffect(() => {
         axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&2000`)
@@ -110,20 +114,61 @@ export default function Speedmeter() {
         ...theme.typography.book,
         padding: theme.spacing(1),
         textAlign: 'justify',
-        minHeight: '800px',
+        //minHeight: '800px',
+        //maxHeight: '800px',
         fontSize: `${fontSize}px`,
     }));
 
+    const ref = React.useRef(null);
 
+    const [width, setWidth] = React.useState(0);
+    const [height, setHeight] = React.useState(0);
 
+    React.useLayoutEffect(() => {
+        setWidth(ref.current.offsetWidth);
+        setHeight(ref.current.offsetHeight);
+        let p = 'M 0 35, ';
+        for(let i = 0; i <= ref.current.offsetHeight/fontSize; i++) {
+            p = p + `L ${ref.current.offsetWidth} ${2*i*fontSize}, `;
+            p = p + `L 0 ${2*(i+1)*fontSize}, `;
+        }
+        setPath(p);
+    }, [ref.current]);
+
+    document.addEventListener('keydown', function(event){
+		console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
+        console.log(event)
+        if(event.key == 'w')
+            setPaused(false);
+        if(event.key == 's')
+            setPaused(true);
+    }
+    );
 
     return (
         <>
+            <div style={{ position: 'relative' }}>
+                <Tween
+                    animation={{ duration: 5000 * 800/fontSize, path: path, repeat: -1, ease: 'linear' }}
+                    style={{
+                        opacity: 0.5,
+                        position: 'absolute',
+                        width: '20px',
+                        height: '20px',
+                        left: '-10px',
+                        top: '-10px',
+                        background: '#AAA',
+                    }}
+                    paused={paused}
+                />
+            </div>
             <Grid container spacing={2}>
                 <Grid xs={8}>
                     <YellowPaper>
-                        <BookPaper>
-                        {text}
+                        <BookPaper ref={ref}>
+                            <div id="#text-content">
+                                {text}
+                            </div>
                         </BookPaper>
                     </YellowPaper>
                     <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
@@ -145,9 +190,11 @@ export default function Speedmeter() {
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{totalWords}</b> słów</Typography>
                         </Stack>
-                        <Stopwatch setTimeFromParent={setTime} />
+                  
                         <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
                             <Button variant="contained" onClick={() =>{setOpenDialog(true)}}>Zatrzymaj i oblicz wynik</Button>
+                            <h2>Width: {width}</h2>
+                            <h2>Height: {height}</h2>
                         </Stack>
                     </Item>
                 </Grid>
