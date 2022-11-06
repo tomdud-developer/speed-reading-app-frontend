@@ -80,10 +80,14 @@ function Header(props) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
-              <Avatar sx={{ bgcolor: '#95c23d' }} />
-              <Typography sx={{ color: '#95c23d', marginLeft: '5px' }} > {auth.firstname} {auth.lastname}</Typography>
+            <Link to="/settings">
+              <IconButton color="inherit" sx={{ p: 0.5 }} >
+                
+                  <Avatar sx={{ bgcolor: '#95c23d' }} />
+                  <Typography sx={{ color: '#95c23d', marginLeft: '5px' }} > {auth.firstname} {auth.lastname}</Typography>
+              
               </IconButton>
+              </Link>
             </Grid>
           </Grid>
         </Toolbar>

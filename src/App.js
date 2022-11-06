@@ -15,6 +15,10 @@ import { CssBaseline, Paper } from '@mui/material';
 import Register from './components/Register';
 import Speedmeter from './components/speedmeter/Speedmeter';
 import Settings from './components/settings/Settings';
+import Perception1 from './components/perception/excercise/Perception1';
+import PointerBasic from './components/pointer/PointerBasic';
+import PointerBasicExecute from './components/pointer/PointerBasicExecute';
+import PointerBasic2 from './components/pointer/PointerBasic2';
 
 export default function App() {
 
@@ -28,6 +32,7 @@ export default function App() {
       },
       secondary: {
         main: '#66bb6a',
+        text: "#000"
       },
       three: '#101F33',
       background: '#263A52'
@@ -40,7 +45,6 @@ export default function App() {
       book: {
         color: '#000',
         fontFamily: 'Arial'
-
       }
     },
     tonalOffset: 0.2,
@@ -69,13 +73,17 @@ export default function App() {
           <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'primary.dark'}} >
             <Routes>
               <Route path="/login" element={<Login />}/>
+              <Route path="/pointer-basic-2/" element={<PointerBasic2 />} />
               <Route path="/register" element={<Register />} />
               <Route path="/" element={<Layout />}>
                 <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                   <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                     <Route path="/dashboard/" exact element={<Dashboard />} />
                     <Route path="/speed-meter/" exact element={<Speedmeter />} />
+                    <Route path="/perception-exercise-1/" exact element={<Perception1 />} />
                     <Route path="/settings/" exact element={<Settings />} />
+                    <Route path="/pointer-basic/" exact element={<PointerBasic />} />
+                    
                     
                   </Route>
                 </Route>

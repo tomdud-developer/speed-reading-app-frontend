@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import TextField from '@mui/material/TextField';
 import FormLabel from '@mui/material/FormLabel';
 import { Stack } from '@mui/material';
-import FileUpload from "react-mui-fileuploader"
+import FileUpload from 'react-material-file-upload';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import { Button } from '@mui/material'
 
@@ -17,47 +17,56 @@ export default function PDFuploader() {
 
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
-    const [file, setFile] = React.useState();
-    const [showButton, setShowButton] = React.useState(false);
+    const [files, setFiles] = React.useState();
+    const [formData, setFormData] = React.useState({frompage: 1, topage: 30});
+    const [showButton, setShowButton] = React.useState(true);
     React.useEffect(() => {
 
     }, []);
 
-
-
     const handleFileUploadError = (error) => {
-        
+        setShowButton(false);
     }
 
-    const handleFilesChange = (files) => {
-        setFile(files);
-        setShowButton(true);
+    function handleTextFieldChange(event) {
+        setFormData(previousFormData => (
+            {
+                ...previousFormData,
+                [event.target.id]: event.target.value
+            }
+        ))
+    }
+
+    const sendFile = () => {
+        var fileData = new FormData();
+        fileData.append("multipartPdf", files[0]);
+        console.log(files[0])
+        axiosPrivate.put(`api/v1/pdfuser/save/${auth.appuserid}&${formData.frompage}&${formData.topage}`, fileData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        }).then((result) => {
+            console.log(result)
+        })
     }
 
     return (
         <>
             <FileUpload
-                multiFile={false}
-                disabled={false}
-                header="[Przeciągnij i upuść]"
-                title=""
-                leftLabel="lub"
-                rightLabel="aby wybrać plik"
-                buttonLabel="kliknij tutaj"
-                buttonRemoveLabel="Usuń"
-                maxFileSize={10}
-                maxUploadFiles={1}
-                maxFilesContainerHeight={357}
-                errorSizeMessage={'fill it or move it to use the default error message'}
-                allowedExtensions={['pdf']}
-                onFilesChange={handleFilesChange}
-                onError={handleFileUploadError}
-                imageSrc={'icons/pdf-icon.png'}
-                bannerProps={{ elevation: 0, variant: "outlined" }}
-                containerProps={{ elevation: 0, variant: "outlined" }}
-            />
-            {showButton &&
-                <Button>Wyślij plik na serwer</Button>
+                value={files}
+                onChange={setFiles}
+                buttonText="Załaduj"
+                title="Upuść tutaj lub kliknij załaduj."
+            />;
+            {showButton && (
+                <>
+                    <Grid>
+                    <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} onChange={handleTextFieldChange} id="frompage" label="Od strony"  value={formData.frompage} />
+                    <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} onChange={handleTextFieldChange} id="topage" label="Do strony"  value={formData.topage} />
+                    </Grid>
+                    <Button sx={{margin: '20px'}}variant="contained" onClick={sendFile} >Wyślij plik na serwer</Button>
+                </>
+            )
             }
         </>
         
