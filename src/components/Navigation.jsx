@@ -29,7 +29,7 @@ let categories = [
     id: 'Percepcja wzrokowa',
     children: [
       {id: 'Ćwiczenie znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
-      { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/company-table' },
+      { id: 'Eliminacja fonetyzacji', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
     ],
   },
   {
