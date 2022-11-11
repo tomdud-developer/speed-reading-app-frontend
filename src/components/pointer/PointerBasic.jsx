@@ -135,6 +135,7 @@ export default function PointerBasic() {
         setPath(p);
     }, [ref.current]);
 
+    /*
     document.addEventListener('keydown', function(event){
 		console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
         console.log(event)
@@ -143,7 +144,7 @@ export default function PointerBasic() {
         if(event.key == 's')
             setPaused(true);
     }
-    );
+    )*/
 
     return (
         <>

@@ -19,6 +19,7 @@ import Perception1 from './components/perception/excercise/Perception1';
 import PointerBasic from './components/pointer/PointerBasic';
 import PointerBasicExecute from './components/pointer/PointerBasicExecute';
 import PointerBasic2 from './components/pointer/PointerBasic2';
+import FonetizationRemover from './components/fonetizationRemover/FonetizationRemover';
 
 export default function App() {
 
@@ -83,7 +84,7 @@ export default function App() {
                     <Route path="/perception-exercise-1/" exact element={<Perception1 />} />
                     <Route path="/settings/" exact element={<Settings />} />
                     <Route path="/pointer-basic/" exact element={<PointerBasic />} />
-                    
+                    <Route path="/fonetization-remover/" exact element={<FonetizationRemover />} />
                     
                   </Route>
                 </Route>

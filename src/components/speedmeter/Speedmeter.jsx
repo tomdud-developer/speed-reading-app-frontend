@@ -25,7 +25,6 @@ import axios from 'axios';
 import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
-
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
