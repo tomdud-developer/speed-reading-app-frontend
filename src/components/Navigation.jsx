@@ -20,9 +20,8 @@ let categories = [
   {
     id: 'Mierniki',
     children: [
-      {id: 'Mierniki', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/case-form'},
-      { id: 'Miernik prędkości czytania', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
-      { id: 'Miernik zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/offer-generator' },
+      { id: 'Prędkości czytania', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
+      { id: 'Zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/offer-generator' },
     ],
   },
   {
@@ -30,27 +29,28 @@ let categories = [
     children: [
       {id: 'Ćwiczenie znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
       { id: 'Eliminacja fonetyzacji', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
+      { id: 'Szybkie słowa', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fast-words' },
     ],
   },
   {
     id: 'Czytanie ze wskaźnikiem',
     children: [
-      {id: 'Podstawy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/pointer-basic'},
+      {id: 'Podstawy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-basic'},
       { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/worker-table' },
     ],
   },
   {
     id: 'Ustawienia',
     children: [
-      {id: 'Ustawienia Aplikacji', icon: <SettingsApplicationsIcon sx={{color: 'secondary.main'}} />, active: false, active: false, path: '/settings'},
+      {id: 'Ustawienia Aplikacji', icon: <SettingsApplicationsIcon sx={{color: 'secondary.main'}} />, active: false, path: '/settings'},
     ],
   },
 ];
 
 
 const item = {
-  py: '2px',
-  px: 3,
+  py: '0px',
+  px: '3px',
   color: 'rgba(255, 255, 255, 0.7)',
   '&:hover, &:focus': {
     bgcolor: 'rgba(255, 255, 255, 0.08)',
@@ -60,7 +60,7 @@ const item = {
 const itemCategory = {
   boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
   color: 'rgba(255, 255, 255, 0.7)',
-  py: 1.5,
+  py: 1,
   px: 3,
 };
 
@@ -96,7 +96,11 @@ export default function Navigation(props) {
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
           <Link to={'/dashboard'}>
-            <ListItemButton selected={dasboardActive} sx={item} onClick={() => { props.onComponentChange(`Panel główny`); toogleActiveCategory("dashboard", "dashboard"); setDashboardActive(true) }}>
+            <ListItemButton
+                selected={dasboardActive}
+                sx={item}
+                onClick={() => { props.onComponentChange(`Panel główny`); toogleActiveCategory("dashboard", "dashboard"); setDashboardActive(true) }}
+            >
               <ListItemIcon> <HomeIcon sx={{color: 'secondary.main'}} /> </ListItemIcon>
               <ListItemText>Panel główny</ListItemText>
             </ListItemButton>
@@ -110,7 +114,11 @@ export default function Navigation(props) {
             {children.map(({ id: childId, icon, active, path }) => (
                     <ListItem disablePadding key={childId}>
                         <Link to={path}>
-                            <ListItemButton selected={active} sx={item} onClick={() => {props.onComponentChange(`${id}: ${childId}`); toogleActiveCategory(id, childId) }}>
+                            <ListItemButton
+                                selected={active}
+                                sx={item}
+                                onClick={() => {props.onComponentChange(`${id}: ${childId}`); toogleActiveCategory(id, childId) }}
+                            >
                                 <ListItemIcon>{icon}</ListItemIcon>
                                 <ListItemText>{childId}</ListItemText>
                             </ListItemButton>
