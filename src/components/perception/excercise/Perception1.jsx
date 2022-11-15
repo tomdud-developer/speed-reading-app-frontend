@@ -23,6 +23,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { axiosPrivate } from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
+import {NumberInputField} from "./NumberInputField";
 
 
 export default function Perception1(props) {
@@ -35,24 +36,6 @@ export default function Perception1(props) {
         textAlign: 'center',
         color: theme.palette.text.secondary,
       }));
-    
-    const YellowPaper = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#f0ca62',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    minHeight: '800px'
-    }));
-
-
-    const BookPaper = styled(Paper)(({ theme }) => ({
-        backgroundColor: '#e3ddcc',
-        ...theme.typography.book,
-        padding: theme.spacing(1),
-        textAlign: 'justify',
-        minHeight: '800px',
-        //fontSize: `${fontSize}px`,
-    }));
 
     const [displayNumber, setDisplayNumber] =  React.useState('???');
     const [number, setNumber] =  React.useState();
@@ -61,6 +44,9 @@ export default function Perception1(props) {
     const [difficulty, setDifficulty] = React.useState(1);
     const [progressGood, setProgressGood] = React.useState(0);
     const [progressBad, setProgressBad] = React.useState(0);
+    const [isOnStartButtonDisabled, setIsOnStartButtonDisabled] = React.useState(false);
+    const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = React.useState(true);
+
     const getRandomNumber = (difficultyLevel) => {
         let min = Math.pow(10, difficultyLevel);
         let max = Math.pow(10, difficultyLevel + 1) - 1;
@@ -77,16 +63,22 @@ export default function Perception1(props) {
         setDisplayNumber(randomNumber);
         await new Promise(resolve => setTimeout( resolve, 500 + difficulty * 100 ));
         setDisplayNumber("???");
+
+        setIsOnStartButtonDisabled(true);
+        setIsConfirmButtonDisabled(false);
     }
 
     const onConfirmClick = () => {
-        if(number == userNumber) {
+        console.log(userNumber,"user - number", number)
+        if(number === Number(userNumber)) {
             setAlertState(1);
             setProgressGood((old) => old + 1);
         } else {
             setAlertState(0);
             setProgressBad((old) => old + 1);
         }
+        setIsOnStartButtonDisabled(false);
+        setIsConfirmButtonDisabled(true);
     }
 
 
@@ -94,8 +86,23 @@ export default function Perception1(props) {
         <>
             <Grid container spacing={2}>
                 <Grid xs={8}>
-                    <YellowPaper>
-                        <BookPaper>
+                    <Paper
+                        sx={{
+                            padding: 2,
+                            backgroundColor: '#f0ca62',
+                            textAlign: 'center',
+                            minHeight: '600px'
+                        }}
+                    >
+                        <Paper
+                            sx={{
+                                padding: 10,
+                                backgroundColor: '#e3ddcc',
+                                textAlign: 'justify',
+                                minHeight: '600px',
+                            }}
+
+                        >
                             <Grid
                                 container
                                 spacing={0}
@@ -111,11 +118,22 @@ export default function Perception1(props) {
                                         {displayNumber}
                                     </Typography>
                                 </Box>
-                                <Button onClick={onStartClick} color="secondary" variant='contained' sx={{width: '50%'}}>
+                                <Button onClick={onStartClick} color="secondary" variant='contained' sx={{width: '50%'}} disabled={isOnStartButtonDisabled}>
                                     Kliknij spację, aby przejść do kolejnego
                                 </Button>
-                                <TextField disableAutoFocus='true' autoComplete='off' onChange={(e) => {setUserNumber(e.target.value)}} sx={{ input: { textAlign:'center', fontSize: '50px' } , padding: '20px'}} id="userNumber" label=" " variant='filled'  value={userNumber} />
-                                <Button onClick={onConfirmClick} color="secondary" variant='contained' sx={{width: '50%'}}>
+                                <TextField
+                                    autoComplete='off'
+                                    onChange={(e) => {setUserNumber(e.target.value)}}
+                                    sx={{
+                                        input: { textAlign:'center', fontSize: '50px' },
+                                        padding: '20px'
+                                    }}
+                                    id="userNumber"
+                                    label=" "
+                                    variant='filled'
+                                    value={userNumber}
+                                />
+                                <Button onClick={onConfirmClick} color="secondary" variant='contained' sx={{width: '50%', marginBottom: "10px"}} disabled={isConfirmButtonDisabled}>
                                     Zatwierdź
                                 </Button>
                                 {alertState === 0 && <Alert severity="error">{`Błędna odpowiedź. Poprawna to ${number}`}</Alert>}
@@ -124,8 +142,8 @@ export default function Perception1(props) {
                                 </Grid>   
                                 
                             </Grid> 
-                        </BookPaper>
-                    </YellowPaper>
+                        </Paper>
+                    </Paper>
                 </Grid>
                 <Grid xs={4}>
                     <Item>
@@ -138,7 +156,12 @@ export default function Perception1(props) {
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <Typography variant='h4'>Postęp</Typography>
                             <Box sx={{ width: '100%' }}>
-                            <LinearProgress variant="buffer" value={(progressGood + progressBad) / 40 * 100} valueBuffer={ (progressGood + progressBad + 1) / 40 * 100} />
+                                <LinearProgress
+                                    variant="buffer"
+                                    value={(progressGood + progressBad) / 40 * 100}
+                                    valueBuffer={ (progressGood + progressBad + 1) / 40 * 100}
+                                    color="secondary"
+                                />
                             </Box>
                             <Typography variant='h6'>{`${progressGood+progressBad}/40`}</Typography>
                         </Stack>

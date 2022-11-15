@@ -1,6 +1,5 @@
 import Tween from 'rc-tween-one';
 import React from 'react';
-import ReactDom from 'react-dom';
 import BezierPlugin from 'rc-tween-one/lib/plugin/BezierPlugin';
 Tween.plugins.push(BezierPlugin);
 

@@ -25,7 +25,6 @@ import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
 import Tween from 'rc-tween-one';
-import ReactDom from 'react-dom';
 import TweenOne from 'rc-tween-one';
 import PathPlugin from 'rc-tween-one/lib/plugin/PathPlugin';
 TweenOne.plugins.push(PathPlugin);
