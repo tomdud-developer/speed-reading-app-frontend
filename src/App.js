@@ -20,6 +20,7 @@ import PointerBasic from './components/pointer/PointerBasic';
 import PointerBasic2 from './components/pointer/PointerBasic2';
 import FonetizationRemover from './components/fonetizationRemover/FonetizationRemover';
 import FastWords from "./components/perception/excercise/FastWords";
+import SchultzArray from "./components/eyeshot/SchultzArray";
 
 export default function App() {
 
@@ -86,6 +87,7 @@ export default function App() {
                     <Route path="/pointer-basic/" exact element={<PointerBasic />} />
                     <Route path="/fonetization-remover/" exact element={<FonetizationRemover />} />
                     <Route path="/fast-words/" exact element={<FastWords />} />
+                    <Route path="/schultz-array/" exact element={<SchultzArray />} />
 
                   </Route>
                 </Route>

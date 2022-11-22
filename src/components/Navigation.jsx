@@ -27,9 +27,15 @@ let categories = [
   {
     id: 'Percepcja wzrokowa',
     children: [
-      {id: 'Ćwiczenie znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
+      {id: 'Znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
       { id: 'Eliminacja fonetyzacji', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
       { id: 'Szybkie słowa', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fast-words' },
+    ],
+  },
+  {
+    id: 'Pole widzenia',
+    children: [
+      {id: 'Tablice Schultza', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/schultz-array'},
     ],
   },
   {
@@ -60,7 +66,7 @@ const item = {
 const itemCategory = {
   boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
   color: 'rgba(255, 255, 255, 0.7)',
-  py: 1,
+  py: '1px',
   px: 3,
 };
 
@@ -91,7 +97,7 @@ export default function Navigation(props) {
   return (
     <Drawer variant="permanent" {...other}  sx={{borderColor: 'green', }}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 18, color: '#fff' }}>
           <Image src={process.env.PUBLIC_URL + '/logo.png'} />
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
@@ -108,7 +114,7 @@ export default function Navigation(props) {
         </ListItem>
         {categoriesHook.map(({ id, children }) => (
           <Box key={id} variant="secondary">
-            <ListItem sx={{ py: 2, px: 3 }}>
+            <ListItem sx={{ py: 1, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, active, path }) => (
