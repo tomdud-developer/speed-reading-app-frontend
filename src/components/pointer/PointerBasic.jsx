@@ -119,6 +119,7 @@ export default function PointerBasic() {
     }));
 
     const ref = React.useRef(null);
+    const pointerRef = React.useRef(null);
 
     const [width, setWidth] = React.useState(0);
     const [height, setHeight] = React.useState(0);
@@ -134,7 +135,14 @@ export default function PointerBasic() {
         setPath(p);
     }, [ref.current]);
 
-    /*
+
+    React.useLayoutEffect(() => {
+        console.log(pointerRef.current)
+    }, [pointerRef.current]);
+
+
+
+/*
     document.addEventListener('keydown', function(event){
 		console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
         console.log(event)
@@ -147,8 +155,8 @@ export default function PointerBasic() {
 
     return (
         <>
-            <div style={{ position: 'relative' }}>
-                <Tween
+            <div style={{ position: 'absolute' }}>
+                <Tween ref={pointerRef}
                     animation={{ duration: 5000 * 800/fontSize, path: path, repeat: -1, ease: 'linear' }}
                     style={{
                         opacity: 0.5,

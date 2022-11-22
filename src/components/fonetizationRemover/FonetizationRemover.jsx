@@ -150,7 +150,6 @@ export default function FonetizationRemover(props) {
         0% {opacity: 0.3;}
         50% {opacity: 0.2;}
         100% {opacity: 0.05;}
-
     `;
 
     const GradientBox = styled(Box)`

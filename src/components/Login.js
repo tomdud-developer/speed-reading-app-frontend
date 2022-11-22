@@ -36,8 +36,7 @@ const Login = () => {
         e.preventDefault();
        
         try {
-            //var querystring = require('querystring');
-            var bodyFormData = new FormData();
+            let bodyFormData = new FormData();
             bodyFormData.append('username', user);
             bodyFormData.append('password', pwd);
             const response = await axios.post(LOGIN_URL,
@@ -45,7 +44,7 @@ const Login = () => {
                   headers: { 
                     "Content-Type": "application/x-www-form-urlencoded",
                   },
-                  withCredentials: true
+                  withCredentials: false
                 });
             console.log(JSON.stringify(response.data));
             const accessToken = response.data.access_token;
