@@ -18,14 +18,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -74,12 +72,11 @@ export default function SchultzArray(props) {
     const [rows, setRows] = React.useState(5);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
-    const [delay, setDelay] = React.useState(1000);
-    const [array, setArray] = React.useState();
     const [content, setContent] = React.useState();
     const schultzElementWidth = 90;
     const [nextNumber, setNextNumber] = React.useState(1);
-    const [schultzArray, setSchultzArray] = React.useState([]);
+    const [schultzArray, setSchultzArray] = React.useState([1]);
+    const [dialogOpen, setDialogOpen] = React.useState(false);
 
     let BookPaper = styled(Paper)(({ theme }) => ({
         backgroundColor: '#e3ddcc',
@@ -126,34 +123,64 @@ export default function SchultzArray(props) {
     `
 
 
+
+
     React.useEffect(() => {
-        if(running) {
-
-        } else {
-
+        let interval;
+        if (running) {
+            interval = setInterval(() => {
+                setTime((prevTime) => prevTime + 1000);
+            }, 1000);
+        } else if (!running) {
+            clearInterval(interval);
         }
+        return () => clearInterval(interval);
     }, [running]);
 
+    //Generate initial random array
     React.useEffect(() => {
+        setSchultzArray(createRandomArray());
+    }, [])
+
+    //Generate new random array
+    React.useEffect(() => {
+        setRunning(false);
+        setTime(0);
+        setSchultzArray(createRandomArray());
+    }, [columns, rows])
+
+    //Every change of schultzArray generate new view
+    React.useEffect(() => {
+        createSchultzArray();
+        if(nextNumber == 2) {
+            setRunning(true);
+        }
+        if(nextNumber > schultzArray.length) {
+            setRunning(false);
+            setDialogOpen(true);
+            console.log("Wygrałes", time);
+        }
+
+    }, [schultzArray, nextNumber]);
+
+
+
+
+    const createRandomArray = () => {
+
+        setNextNumber(1);
         let randomSchultzArray = [];
         for(let i = 1; i <= columns * rows; i++)
             randomSchultzArray.push(i);
         randomSchultzArray = shuffleAlhorithm(randomSchultzArray);
-        setSchultzArray(randomSchultzArray);
-        setNextNumber(1);
-    }, [rows, columns])
-
-    React.useEffect(() => {
-        createSchultzArray();
-    }, [nextNumber, rows, columns])
-
-
+        console.log("Random array: from cols ", columns, "and rows", rows, "randschultz ", randomSchultzArray )
+        return randomSchultzArray;
+    }
     const SchultzArrayElementClick = (event) => {
         const number = Number(event.target.getAttribute("id").replace( /^\D+/g, ''));
         console.log(nextNumber, number)
         if(number === nextNumber) {
             console.log(event.target)
-            //event.target.style.cssText = '';
             setNextNumber(prev => prev +1);
         }
     }
@@ -170,6 +197,8 @@ export default function SchultzArray(props) {
     }
 
     const createSchultzArray = () => {
+        console.log("Tworzę grida dla rows = ", rows, " Tworzę grida dla cols=", columns)
+        console.log("Tak wygląda schultzArray!: ", schultzArray)
         const table = schultzArray.map(number => {
             return(
                 <Grid
@@ -224,14 +253,40 @@ export default function SchultzArray(props) {
         <>
             <Grid container spacing={2}>
                 <Grid xs={8}>
-                    <YellowPaper>
-                        <BookPaper>
+                    <Paper
+                        sx={{
+                            backgroundColor: '#f0ca62',
+                            padding: '10px',
+                            textAlign: 'center',
+                            minHeight: '600px',
+                            width: '1000px',
+                            maxWidth: '1000px',
+                        }}
+                    >
+                        <Paper
+                            sx ={{
+                                    backgroundColor: '#e3ddcc',
+                                    padding: 10,
+                                    minHeight: '600px',
+                                    margin: 'auto',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                        >
                             {content}
-                        </BookPaper>
-                    </YellowPaper>
+                        </Paper>
+                    </Paper>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Paper
+                        sx={{
+                            backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
+                            padding: "10px",
+                            textAlign: 'center',
+
+                        }}
+                    >
                         <Box sx={{marginBottom: '40px',display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>
                             <TuneIcon color="secondary" sx={{fontSize: "40px", marginRight: '20px'}}/>
                             <Typography variant='h3'>Panel sterujący</Typography>
@@ -263,27 +318,50 @@ export default function SchultzArray(props) {
                             <TableRowsIcon color="secondary"/>
                         </Stack>
                         <Typography>Aktualny status: <b>{running?"Uruchomiony":"Zatrzymany"}</b></Typography>
+                        <Typography>Czas: <b>{Math.floor(time/1000)}</b>s</Typography>
                         <Typography>Kolejna liczba: <b>{nextNumber}</b></Typography>
                         <SteeringButton
                             color="success"
                             variant="contained"
-                            onClick={() => {setRunning(false);} }
+                            onClick={() => {setRunning(prevState => !prevState);} }
                         >
-                            <StopCircleIcon/>
-                            Pause
+                            {running ? <StopCircleIcon/> : <PlayCircleFilledWhiteIcon />}
+                            {running ? `Pause` : `Run`}
                         </SteeringButton>
                         <SteeringButton
                             color="warning"
                             variant="contained"
-                            onClick={() => {setRunning(false);}}
+                            onClick={() => {
+                                setRunning(false);
+                                setTime(0);
+                                setSchultzArray(createRandomArray());
+                            }}
                         >
                             <RestartAltIcon/>
                             Reset
                         </SteeringButton>
-                    </Item>
+                    </Paper>
                 </Grid>
             </Grid>
 
+
+            <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false)}} >
+                <Paper sx={{bgcolor: "primary.main"}}>
+                    <DialogTitle>
+                        {"Gratulacje"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText color="typography.book.color">
+                            Twój wynik to {Math.ceil( (time / 1000 ))} sekund dla siatki {rows} x {columns}.
+                            Czy chcesz zapisać tą wartość?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant='contained' color="success" >Zapisz</Button>
+                        <Button variant='contained' color="error" >Odrzuć</Button>
+                    </DialogActions>
+                </Paper>
+            </Dialog>
 
 
         </>

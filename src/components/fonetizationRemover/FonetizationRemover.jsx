@@ -35,13 +35,13 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
 const YellowPaper = styled(Paper)(({ theme }) => ({
-backgroundColor: '#f0ca62',
-...theme.typography.body2,
-padding: theme.spacing(1),
-textAlign: 'center',
-minHeight: '800px',
-width: '1000px',
-maxWidth: '1000px',
+    backgroundColor: '#f0ca62',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    minHeight: '800px',
+    width: '1000px',
+    maxWidth: '1000px',
 }));
 
 const useStyles = makeStyles(() => ({
