@@ -23,10 +23,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
-
+import SpeedIcon from '@mui/icons-material/Speed';
 import Tween from 'rc-tween-one';
 import TweenOne from 'rc-tween-one';
 import PathPlugin from 'rc-tween-one/lib/plugin/PathPlugin';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -53,69 +56,48 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
+const SteeringButton = styled(Button)`
+        padding: 5px;
+        margin-left: 20px;
+        margin-right: 20px;
+        min-width: 100px;
+    `
+
 
 
 export default function PointerBasic() {
-    
-    const getText = (page) => {
-        let splited = sampletext.split(" ");
-        return splited.slice((page - 1) * wordsPerPage, (page) * wordsPerPage).join(" ");
-    }
 
-    const classes = useStyles();
-    const [sampletext, setSampleText] = React.useState("Ładuję... ... ...");
-    const [page, setPage] = React.useState(1);
-    const [totalPages, setTotalPages] = React.useState(3);
-    const [totalWords, setTotalWords] = React.useState(0);
-    const [fontSize, setFontSize] = React.useState(18);
-    const [wordsPerPage, setWordsPerPage] = React.useState(555);
-    const [text, setText] = React.useState(getText(1));
+    const [fontSize, setFontSize] = React.useState(20);
+    const [text, setText] = React.useState("Ładuję tekst ... ");
+    const [speed, setSpeed] = React.useState(50);
     const [time, setTime] = React.useState(0);
-    const [openDialog, setOpenDialog] = React.useState(false);
     const { auth } = useAuth();
-    const [path, setPath] = React.useState(`M 0 0`);
-    const handleClose = () => {setOpenDialog(false)};
-    const [paused, setPaused] = React.useState(true);
+    const [path, setPath] = React.useState(`M 0 35 L 1000 35`);
+    const [running, setRunning] = React.useState(false);
+    const paused = React.useRef(true);
+    const [tweenToogle, setTweenToogle] = React.useState(true);
 
     React.useEffect(() => {
-        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&2000`)
-        .then(
-            (result) => {
-                setSampleText(result.data);
-                setTotalWords(result.data.split(" ").length)
-            }
+        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&500`)
+            .then(
+                (result) => {
+                    setText(result.data.replace("/ {2,}/",""));
+                }
             );
-        }, []);
-    
+    }, []);
 
-    React.useEffect(() => setText(getText(page), [page]));
 
-    const changeWordsPerPage = (event, newValue) => {
-        setWordsPerPage(newValue);
-        setTotalPages(Math.ceil(totalWords / newValue));
-        setText(getText(page));
-    }
 
-    const postResult = async () => {
-        await axiosPrivate.post("api/v1/speed-meter-log/save",
-            {
-                appUser: {
-                    id: auth.appuserid
-                },
-                wordsperminute: Math.ceil(totalWords / (time / 1000 / 60)),
-                date: new Date().toISOString()
-            }
-        )
-    }
 
     let BookPaper = styled(Paper)(({ theme }) => ({
         backgroundColor: '#e3ddcc',
         ...theme.typography.book,
         padding: theme.spacing(1),
         textAlign: 'justify',
-        //minHeight: '800px',
-        //maxHeight: '800px',
+        minHeight: '800px',
+        maxHeight: '800px',
         fontSize: `${fontSize}px`,
+        lineHeight: 1.5,
     }));
 
     const ref = React.useRef(null);
@@ -124,40 +106,47 @@ export default function PointerBasic() {
     const [width, setWidth] = React.useState(0);
     const [height, setHeight] = React.useState(0);
 
-    React.useLayoutEffect(() => {
-        setWidth(ref.current.offsetWidth);
-        setHeight(ref.current.offsetHeight);
-        let p = 'M 0 35, ';
-        for(let i = 0; i <= ref.current.offsetHeight/fontSize; i++) {
-            p = p + `L ${ref.current.offsetWidth} ${2*i*fontSize}, `;
-            p = p + `L 0 ${2*(i+1)*fontSize}, `;
+    React.useEffect(() => {
+        let p = 'M 0 35 ';
+        for(let i = 0; i <= 800/fontSize/1.5; i++) {
+            p = p + `L ${1045} ${1.5*i*fontSize + 35} `;
+            p = p + `L 0 ${1.5*(i+1)*fontSize + 35} `;
         }
         setPath(p);
-    }, [ref.current]);
+        console.log(p);
+    }, []);
+
+    React.useEffect(() => {
+        setRunning(false);
+        resetToInitial();
+    }, [speed]);
 
 
-    React.useLayoutEffect(() => {
-        console.log(pointerRef.current)
-    }, [pointerRef.current]);
+    const resetToInitial = () => {
 
+        pointerRef.current.currentRef.style.transform = "translate(0px, 0px)"
+        //pointerRef.current.currentRef.style.left = '-10px';
+        //pointerRef.current.currentRef.style.top = '-10px';
+        let p = 'M 0 35 ';
+        for(let i = 0; i <= 800/fontSize/1.5; i++) {
+            p = p + `L ${1045} ${1.5*i*fontSize + 35} `;
+            p = p + `L 0 ${1.5*(i+1)*fontSize + 35} `;
+        }
+        let s = "";
+        for(let i = 0; i < Math.floor(Math.random() * 100); i++) {
+            s = s + " ";
+        }
+        p = p + s;
+        setPath(p);
 
-
-/*
-    document.addEventListener('keydown', function(event){
-		console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
-        console.log(event)
-        if(event.key == 'w')
-            setPaused(false);
-        if(event.key == 's')
-            setPaused(true);
     }
-    )*/
+
 
     return (
         <>
             <div style={{ position: 'absolute' }}>
-                <Tween ref={pointerRef}
-                    animation={{ duration: 5000 * 800/fontSize, path: path, repeat: -1, ease: 'linear' }}
+                {tweenToogle && <Tween ref={pointerRef}
+                    animation={{ duration: 500000 * 8/speed , path: path, repeat: 0, ease: 'linear' }}
                     style={{
                         opacity: 0.5,
                         position: 'absolute',
@@ -165,10 +154,13 @@ export default function PointerBasic() {
                         height: '20px',
                         left: '-10px',
                         top: '-10px',
-                        background: '#AAA',
+                        borderRadius: '50%',
+                        backgroundColor: 'rgb(234,119,131)',
+                        boxShadow: 'inset -5px -5px 20px rgba(0,0,0,.3)',
                     }}
-                    paused={paused}
-                />
+                    id="pointer"
+                    paused={!running}
+                />}
             </div>
             <Grid container spacing={2}>
                 <Grid xs={8}>
@@ -179,53 +171,38 @@ export default function PointerBasic() {
                             </div>
                         </BookPaper>
                     </YellowPaper>
-                    <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
-                        <Pagination count={totalPages} color="secondary" classes={{ ul: classes.ul }} page={page}  size='large' onChange={(event, newValue) => {setPage(newValue);}} />
-                    </Stack>
                 </Grid>
                 <Grid xs={4}>
                     <Item>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <TextDecreaseIcon color="secondary"/>
-                            <Slider color="secondary" valueLabelDisplay="on" value={fontSize} onChange={(event, newValue) => {setFontSize(newValue)}} />
-                            <TextIncreaseIcon color="secondary"/>
+                            <SpeedIcon color="secondary"/>
+                            <Slider color="secondary" valueLabelDisplay="on" value={speed} onChange={(event, newValue) => {setSpeed(newValue)}} />
+                            <SpeedIcon color="secondary"/>
                         </Stack>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <FirstPageIcon color="secondary"/>
-                            <Slider color="secondary" valueLabelDisplay="on" value={wordsPerPage} max={1000} onChange={changeWordsPerPage} />
-                            <LastPageIcon color="secondary"/>
+                            <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{text.split(" ").length}</b> słów</Typography>
                         </Stack>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{totalWords}</b> słów</Typography>
-                        </Stack>
-                  
-                        <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
-                            <Button variant="contained" onClick={() =>{setOpenDialog(true)}}>Zatrzymaj i oblicz wynik</Button>
-                            <h2>Width: {width}</h2>
-                            <h2>Height: {height}</h2>
-                        </Stack>
+                        <Typography>Aktualny status: <b>{running?"Uruchomiony":"Zatrzymany"}</b></Typography>
+                        <SteeringButton color="secondary" variant="contained" onClick={() => setRunning(true)} margin={10}>
+                            <PlayArrowIcon/>
+                            Start
+                        </SteeringButton>
+                        <SteeringButton color="error"  variant="contained" onClick={() => setRunning(false)}>
+                            <StopCircleIcon/>
+                            Stop
+                        </SteeringButton>
+                        <SteeringButton
+                            color="warning"
+                            variant="contained"
+                            onClick={() => {setRunning(false); resetToInitial();}}
+                        >
+                            <RestartAltIcon/>
+                            Reset
+                        </SteeringButton>
                     </Item>
                 </Grid>
             </Grid>
 
-
-            <Dialog open={openDialog} onClose={handleClose} >
-                <Paper sx={{bgcolor: "primary.main"}}>
-                <DialogTitle>
-                    {"Gratulacje"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText color="typography.book.color">
-                        Twój wynik to {Math.ceil(totalWords / (time / 1000 / 60))} słów na minutę.
-                        Czy chcesz zapisać tą wartość?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant='contained' color="success" onClick={() => {postResult(); handleClose();}} >Zapisz</Button>
-                    <Button variant='contained' color="error" onClick={handleClose} >Odrzuć</Button>
-                </DialogActions>
-                </Paper>
-            </Dialog>
         </>
     )
 
