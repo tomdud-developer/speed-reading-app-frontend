@@ -61,7 +61,6 @@ export default function Settings() {
                     </Paper>
                 </Grid>
             </Grid>
-            <a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Freepik - Flaticon</a>
         </>
     )
 

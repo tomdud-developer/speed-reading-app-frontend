@@ -6,7 +6,7 @@ import Layout from './components/Layout';
 import { Routes, Route } from "react-router-dom";
 import Login from './components/Login';
 import RequireAuth from './components/RequireAuth';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import { bgcolor } from '@mui/system';
 import {red} from '@mui/material/colors';
 
@@ -21,6 +21,9 @@ import PointerBasic2 from './components/pointer/PointerBasic2';
 import FonetizationRemover from './components/fonetizationRemover/FonetizationRemover';
 import FastWords from "./components/perception/excercise/FastWords";
 import SchultzArray from "./components/eyeshot/SchultzArray";
+import PointerMedium from "./components/pointer/PointerMedium";
+import ColumnsOfNumbers from "./components/perception/excercise/ColumnsOfNumbers";
+import Pyramid from "./components/eyeshot/Pyramid";
 
 export default function App() {
 
@@ -75,7 +78,6 @@ export default function App() {
           <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'primary.dark'}} >
             <Routes>
               <Route path="/login" element={<Login />}/>
-              <Route path="/pointer-basic-2/" element={<PointerBasic2 />} />
               <Route path="/register" element={<Register />} />
               <Route path="/" element={<Layout />}>
                 <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
@@ -83,11 +85,14 @@ export default function App() {
                     <Route path="/dashboard/" exact element={<Dashboard />} />
                     <Route path="/speed-meter/" exact element={<Speedmeter />} />
                     <Route path="/perception-exercise-1/" exact element={<Perception1 />} />
+                    <Route path="/perception-exercise-2/" exact element={<ColumnsOfNumbers />} />
                     <Route path="/settings/" exact element={<Settings />} />
                     <Route path="/pointer-basic/" exact element={<PointerBasic />} />
+                    <Route path="/pointer-medium/" exact element={<PointerMedium />} />
                     <Route path="/fonetization-remover/" exact element={<FonetizationRemover />} />
                     <Route path="/fast-words/" exact element={<FastWords />} />
                     <Route path="/schultz-array/" exact element={<SchultzArray />} />
+                    <Route path="/pyramid/" exact element={<Pyramid />} />
 
                   </Route>
                 </Route>

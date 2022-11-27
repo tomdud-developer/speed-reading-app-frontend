@@ -24,15 +24,21 @@ export default function SpeedMeterLogsChart(props) {
 
   return (
     
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+        width="100%"
+        height="250px"
+        display='flex'
+        justifyContent='center'
+        padding='10px'
+    >
       <Box sx={{bgcolor: '#fff'}}>
       <AreaChart
         width={1000}
-        height={400}
+        height={250}
         data={data}
         margin={{
-          top: 10,
-          right: 30,
+          top: 5,
+          right: 0,
           left: 0,
           bottom: 0,
         }}

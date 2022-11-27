@@ -56,15 +56,17 @@ export default function PDFuploader() {
                 value={files}
                 onChange={setFiles}
                 buttonText="Załaduj"
+                buttonProps={{color: 'secondary'}}
+
                 title="Upuść tutaj lub kliknij załaduj."
-            />;
+            />
             {showButton && (
                 <>
                     <Grid>
                     <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} onChange={handleTextFieldChange} id="frompage" label="Od strony"  value={formData.frompage} />
                     <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} onChange={handleTextFieldChange} id="topage" label="Do strony"  value={formData.topage} />
                     </Grid>
-                    <Button sx={{margin: '20px'}}variant="contained" onClick={sendFile} >Wyślij plik na serwer</Button>
+                    <Button sx={{margin: '20px'}} color='secondary' variant="contained" onClick={sendFile} >Wyślij plik na serwer</Button>
                 </>
             )
             }

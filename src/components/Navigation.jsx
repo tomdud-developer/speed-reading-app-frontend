@@ -27,7 +27,8 @@ let categories = [
   {
     id: 'Percepcja wzrokowa',
     children: [
-      {id: 'Znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
+      { id: 'Znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
+      { id: 'Kolumny liczb', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-2'},
       { id: 'Eliminacja fonetyzacji', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
       { id: 'Szybkie słowa', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fast-words' },
     ],
@@ -36,13 +37,14 @@ let categories = [
     id: 'Pole widzenia',
     children: [
       {id: 'Tablice Schultza', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/schultz-array'},
+      {id: 'Piramida liczbowa', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pyramid'},
     ],
   },
   {
     id: 'Czytanie ze wskaźnikiem',
     children: [
-      {id: 'Podstawy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-basic'},
-      { id: '2', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/worker-table' },
+      {id: 'Podstawowy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-basic'},
+      { id: 'Średni', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-medium' },
     ],
   },
   {
