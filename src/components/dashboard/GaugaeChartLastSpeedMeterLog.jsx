@@ -19,16 +19,23 @@ export default function GaugaeChartLastSpeedMeterLog(props) {
 
     return (
 
-        <Box>
+        <Box
+            sx={{
+                height: '250px',
+                display: 'flex',
+                justifyContent: 'center'
+            }}
+        >
             <GaugeChart id="gauge-chart4"
                 nrOfLevels={10}
                 arcPadding={0.1}
                 cornerRadius={3}
                 percent={1}
                 formatTextValue={value => data.wordsperminute + " słów/minutę"}
+                style={{width: '70%', margin: 'auto'}}
             />
-            <Typography fontSize={25}>{`Gratulacje ${auth.firstname}!`}</Typography>
-            <Typography fontSize={18}>{`Twój  wynik to ${data.wordsperminute} słów/minutę`}</Typography>
+            <Typography fontSize={18}>{`Gratulacje ${auth.firstname}!`}</Typography>
+            <Typography fontSize={15}>{`Twój  wynik to ${data.wordsperminute} słów/minutę`}</Typography>
         </Box>
 
     );
