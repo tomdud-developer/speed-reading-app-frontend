@@ -159,7 +159,7 @@ export default function FonetizationRemover(props) {
         animation-duration: 0.8s;
         animation-iteration-count: infinite;
         opacity: 0.4;
-        border-radius: 5;
+        border-radius: 5%;
     `;
 
     const SteeringButton = styled(Button)`

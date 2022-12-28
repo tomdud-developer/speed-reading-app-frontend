@@ -14,30 +14,46 @@ import {styled} from "@mui/material/styles";
 
 
 
-
 export default function SchultzBestTimesGrid(props) {
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
-    const [data, setData] = React.useState({});
+    const [data, setData] = React.useState({
+            "log2x2": null, "log2x3": null, "log2x4": null, "log2x5": null, "log2x6": null,
+            "log3x2": null, "log3x3": null, "log3x4": null, "log3x5": null, "log3x6": null,
+            "log4x2": null, "log4x3": null, "log4x4": null, "log4x5": null, "log4x6": null,
+            "log5x2": null, "log5x3": null, "log5x4": null, "log5x5": null, "log5x6": null,
+            "log6x2": null, "log6x3": null, "log6x4": null, "log6x5": null, "log6x6": null
+    });
+    const [rows, setRows] = React.useState([]);
 
 
 
-    function createData(name, calories, fat, carbs, protein, last) {
-        return { name, calories, fat, carbs, protein, last };
+    function createRow(name, logRx2 ,logRx3, logRx4, logRx5, logRx6) {
+        return { name, logRx2, logRx3, logRx4, logRx5, logRx6 };
     }
 
-    const rows = [
-        createData('1', 1, 2, 3, 4, 3),
-        createData('2', 237, 9.0, 37, 4.3, 5),
-        createData('3', 262, 16.0, 24, 6.0, 6),
-        createData('4', 305, 3.7, 67, 4.3, 9),
-        createData('5', 356, 16.0, 49, 3.9, 9),
-        createData('6', 356, 16.0, 49, 3.9, 10),
-    ];
 
     React.useEffect(() => {
+        axiosPrivate.get(`/api/v1/schultz-array-logs/get/${auth.appuserid}`).then(
+            (result) => {
+                console.log(result.data);
+                setData(result.data);
+            }
+        );
+    }, [])
 
-    }, []);
+    //For each change of data generate grid
+    React.useEffect(() => {
+        const tabRows = [];
+        tabRows.push(createRow(2, data.log2x2 ,data.log2x3, data.log2x4, data.log2x5, data.log2x6));
+        tabRows.push(createRow(3, data.log3x2 ,data.log3x3, data.log3x4, data.log3x5, data.log3x6));
+        tabRows.push(createRow(4, data.log4x2 ,data.log4x3, data.log4x4, data.log4x5, data.log4x6));
+        tabRows.push(createRow(5, data.log5x2 ,data.log5x3, data.log5x4, data.log5x5, data.log5x6));
+        tabRows.push(createRow(6, data.log6x2 ,data.log6x3, data.log6x4, data.log6x5, data.log6x6));
+        if(tabRows.length === 5) {
+            setRows(tabRows);
+        }
+    }, [data]);
 
 
 
@@ -54,12 +70,12 @@ export default function SchultzBestTimesGrid(props) {
                 <Table sx={{ maxWidth: '100%', maxHeight: '200px' }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{color: 'primary.text'}} align="center">Wiersze/Kolumny</TableCell>
-                            <TableCell sx={{color: 'primary.text'}} align="center">2</TableCell>
-                            <TableCell sx={{color: 'primary.text'}} align="center">3</TableCell>
-                            <TableCell sx={{color: 'primary.text'}} align="center">4</TableCell>
-                            <TableCell sx={{color: 'primary.text'}} align="center">5</TableCell>
-                            <TableCell sx={{color: 'primary.text'}} align="center">6</TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>Wiersze/Kolumny</b></TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>2</b></TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>3</b></TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>4</b></TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>5</b></TableCell>
+                            <TableCell sx={{color: 'primary.text'}} align="center"><b>6</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -69,13 +85,13 @@ export default function SchultzBestTimesGrid(props) {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" sx={{color: 'primary.text'}} align="center">
-                                    {row.name}
+                                    <b>{row.name}</b>
                                 </TableCell>
-                                <TableCell sx={{color: 'primary.text'}} align="center">{row.calories}</TableCell>
-                                <TableCell sx={{color: 'primary.text'}} align="center">{row.fat}</TableCell>
-                                <TableCell sx={{color: 'primary.text'}} align="center">{row.carbs}</TableCell>
-                                <TableCell sx={{color: 'primary.text'}} align="center">{row.protein}</TableCell>
-                                <TableCell sx={{color: 'primary.text'}} align="center">{row.last}</TableCell>
+                                <TableCell sx={{color: 'primary.text'}} align="center">{row.logRx2}{row.logRx2?'s':""}</TableCell>
+                                <TableCell sx={{color: 'primary.text'}} align="center">{row.logRx3}{row.logRx3?'s':""}</TableCell>
+                                <TableCell sx={{color: 'primary.text'}} align="center">{row.logRx4}{row.logRx4?'s':""}</TableCell>
+                                <TableCell sx={{color: 'primary.text'}} align="center">{row.logRx5}{row.logRx5?'s':""}</TableCell>
+                                <TableCell sx={{color: 'primary.text'}} align="center">{row.logRx6}{row.logRx6?'s':""}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

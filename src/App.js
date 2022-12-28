@@ -2,23 +2,23 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { BrowserRouter } from 'react-router-dom'
-import Layout from './components/Layout';
+import Layout from './components/common_components/Layout';
 import { Routes, Route } from "react-router-dom";
-import Login from './components/Login';
-import RequireAuth from './components/RequireAuth';
+import Login from './components/common_components/Login';
+import RequireAuth from './components/common_components/RequireAuth';
 import Dashboard from './components/dashboard/Dashboard';
 import { bgcolor } from '@mui/system';
 import {red} from '@mui/material/colors';
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline, Paper } from '@mui/material';
-import Register from './components/Register';
+import Register from './components/common_components/Register';
 import Speedmeter from './components/speedmeter/Speedmeter';
 import Settings from './components/settings/Settings';
 import Perception1 from './components/perception/excercise/Perception1';
 import PointerBasic from './components/pointer/PointerBasic';
 import PointerBasic2 from './components/pointer/PointerBasic2';
-import FonetizationRemover from './components/fonetizationRemover/FonetizationRemover';
+import FonetizationRemover from './components/fonetization_remover/FonetizationRemover';
 import FastWords from "./components/perception/excercise/FastWords";
 import SchultzArray from "./components/eyeshot/SchultzArray";
 import PointerMedium from "./components/pointer/PointerMedium";
@@ -27,7 +27,7 @@ import Pyramid from "./components/eyeshot/Pyramid";
 
 export default function App() {
 
-  let themeMy = createTheme({
+  let appTheme = createTheme({
     mode: "dark",
     palette: {
       primary: {
@@ -39,7 +39,12 @@ export default function App() {
         main: '#66bb6a',
         text: "#000"
       },
-      three: '#101F33',
+      three: {
+        main: '#101F33'
+      },
+      four: {
+        main: '#f0ca62'
+      },
       background: '#263A52'
     },
     typography: {
@@ -72,7 +77,7 @@ export default function App() {
 
   return (
       <BrowserRouter>
-      <ThemeProvider theme={themeMy}>
+      <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <div>
           <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'primary.dark'}} >
@@ -93,7 +98,6 @@ export default function App() {
                     <Route path="/fast-words/" exact element={<FastWords />} />
                     <Route path="/schultz-array/" exact element={<SchultzArray />} />
                     <Route path="/pyramid/" exact element={<Pyramid />} />
-
                   </Route>
                 </Route>
               </Route>
