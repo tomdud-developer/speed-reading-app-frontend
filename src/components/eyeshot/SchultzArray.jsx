@@ -24,6 +24,9 @@ import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -67,7 +70,7 @@ export default function SchultzArray(props) {
 
     const classes = useStyles();
     const { auth } = useAuth();
-
+    const axiosPrivate = useAxiosPrivate();
     const [columns, setColumns] = React.useState(5);
     const [rows, setRows] = React.useState(5);
     const [time, setTime] = React.useState(0);
@@ -77,6 +80,8 @@ export default function SchultzArray(props) {
     const [nextNumber, setNextNumber] = React.useState(1);
     const [schultzArray, setSchultzArray] = React.useState([1]);
     const [dialogOpen, setDialogOpen] = React.useState(false);
+
+    const [snackSuccessOpen, setSnackSuccessOpen] = React.useState(false);
 
     let BookPaper = styled(Paper)(({ theme }) => ({
         backgroundColor: '#e3ddcc',
@@ -164,8 +169,6 @@ export default function SchultzArray(props) {
     }, [schultzArray, nextNumber]);
 
 
-
-
     const createRandomArray = () => {
 
         setNextNumber(1);
@@ -246,6 +249,24 @@ export default function SchultzArray(props) {
             </Grid>
         )
         setContent(cont);
+    }
+
+    function constructJson(jsonKey, jsonValue){
+        var jsonObj = {"key1": jsonValue};
+        jsonObj[jsonKey] = jsonValue;
+        return jsonObj;
+    }
+
+    const postResult = async () => {
+        let jsonObj = constructJson(`log${rows}x${columns}`, Math.ceil( (time / 1000 ))===0?1:Math.ceil( (time / 1000 )));
+        await axiosPrivate.put(`api/v1/schultz-array-logs/save/${auth.appuserid}`, jsonObj)
+            .then(function (response) {
+                console.log(response);
+                setSnackSuccessOpen(true);
+            })
+            .catch((error) =>  {
+                console.log(error);
+            })
     }
 
 
@@ -352,16 +373,32 @@ export default function SchultzArray(props) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText color="typography.book.color">
-                            Twój wynik to {Math.ceil( (time / 1000 ))} sekund dla siatki {rows} x {columns}.
+                            Twój wynik to {Math.ceil( (time / 1000 ))===0?1:Math.ceil( (time / 1000 ))} sekund dla siatki {rows} x {columns}.
                             Czy chcesz zapisać tą wartość?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='contained' color="success" >Zapisz</Button>
+                        <Button variant='contained' color="success" onClick={postResult}>Zapisz</Button>
                         <Button variant='contained' color="error" >Odrzuć</Button>
                     </DialogActions>
                 </Paper>
             </Dialog>
+
+            <Snackbar
+                open={snackSuccessOpen}
+                autoHideDuration={6000}
+                onClose={() => {setSnackSuccessOpen(false);
+                setDialogOpen(false);}}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+            >
+                <Alert
+                    onClose={() => {setSnackSuccessOpen(false); setDialogOpen(false);}}
+                    severity="success"
+                    sx={{ width: '100%' }}
+                >
+                    Pomyślnie zapisano w bazie!
+                </Alert>
+            </Snackbar>
 
 
         </>

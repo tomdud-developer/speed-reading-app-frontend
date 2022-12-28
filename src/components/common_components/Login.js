@@ -1,12 +1,12 @@
 import React from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Grid, Paper, TextField, Stack, Button, Typography, Avatar, Box} from '@mui/material';
 import Image from 'mui-image';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import { useTheme } from '@mui/material/styles';
 
 const LOGIN_URL = 'api/login';
@@ -105,7 +105,7 @@ const Login = () => {
                         }
                         label="Remember me"
                     />
-                    <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
+                    <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Zaloguj</Button>
                     <Typography > Nie masz konta?
                         <Link variant="inherit" color="inherit" to="/register">Zarejestruj się</Link>
                     </Typography>

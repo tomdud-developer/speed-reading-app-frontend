@@ -13,7 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { deepOrange, green } from '@mui/material/colors';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 
 function Header(props) {

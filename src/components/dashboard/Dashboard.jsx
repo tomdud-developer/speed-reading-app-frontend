@@ -8,6 +8,7 @@ import SpeedMeterLogsChart from './SpeedMeterLogsChart';
 import { Typography } from '@mui/material';
 import GaugaeChartLastSpeedMeterLog from './GaugaeChartLastSpeedMeterLog';
 import SchultzBestTimesGrid from "./SchultzBestTimesGrid";
+import {Progress} from "./progress/Progress";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -47,6 +48,18 @@ export default function Dashboard() {
                     }}
                 >
                     <SchultzBestTimesGrid />
+                </Item>
+            </Grid>
+            <Grid xs={2} sm={4} md={4} key={4}>
+                <Item
+                    sx={{
+                        height: '500px',
+                        maxHeight: '500px',
+                        minHeight: '500px',
+                        width: '1000px'
+                    }}
+                >
+                    <Progress />
                 </Item>
             </Grid>
 

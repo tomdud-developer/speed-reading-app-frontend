@@ -1,7 +1,7 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import React from "react";
 import { Alert } from "@mui/material";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 const RequireAuth = ({ allowedRoles }) => {
     const { auth } = useAuth();

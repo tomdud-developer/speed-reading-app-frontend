@@ -1,13 +1,8 @@
 import React from 'react';
-import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { Grid, Paper, TextField, Stack, Button, Typography, Avatar, Box} from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import axios from '../api/axios';
-import { useTheme } from '@mui/material/styles';
+import axios from '../../api/axios';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -101,8 +96,8 @@ const Register = () => {
                             <TextField id="email" required fullWidth label="E-mail" value={formData.email} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
                             <TextField id="password" required type="password" label="Hasło" value={formData.password} onChange={handleTextFieldChange} sx={{marginBottom: 3}} />
                         </Stack>
-                        <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Sign in</Button>
-                        <Typography > Przejdź do logowania  
+                        <Button sx={{backgroundColor: 'custom.dark'}} type='submit'  variant="contained" style={btnstyle} fullWidth onClick={handleSubmit} >Zarejestruj się</Button>
+                        <Typography > {`Przejdź do logowania:      `}
                             <Link to="/login">Logowanie</Link>
                         </Typography>
                         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
