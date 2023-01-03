@@ -36,6 +36,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import useCourse from "../../../hooks/useCourse";
+import {ConfirmExerciseDone} from "../../common_components/ConfirmExerciseDone";
 
 
 export default function FastWords(props) {
@@ -250,6 +251,10 @@ export default function FastWords(props) {
                             <RestartAltIcon/>
                             Reset
                         </SteeringButton>
+                        {
+                            course.exercises.fastwords.confirmExerciseActive &&
+                            <ConfirmExerciseDone exerciseName="fastwords" />
+                        }
                     </Paper>
                 </Grid>
             </Grid>

@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import FormLabel from '@mui/material/FormLabel';
 import {Stack} from '@mui/material';
 import PDFuploader from './PDFuploader';
+import {ResetProgress} from "./ResetProgress";
+import Slide from '@mui/material/Slide';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -40,25 +42,39 @@ export default function Settings() {
 
     return (
         <>
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                <Grid xs={2} sm={4} md={4} key={1}>
-                    <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
-                        <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Podstawowe dane</FormLabel>
-                        <Stack>
-                            <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="name" label="Imię"  value={formData.firstname} />
-                            <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="surname" label="Nazwisko"  value={formData.lastname} />
-                            <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="email" label="E-mail"  value={formData.email} />
-                            <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="username" label="Nick"  value={formData.username} />
-                        </Stack>
-                    </Paper>
+            <Grid container spacing={{ xs: 2}} columns={{xs: 3}}>
+                <Grid xs={1} key={1}>
+                    <Slide direction="left" in={true} style={{ transitionDelay: '200ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                        <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
+                            <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Podstawowe dane</FormLabel>
+                            <Stack>
+                                <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="name" label="Imię"  value={formData.firstname} />
+                                <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="surname" label="Nazwisko"  value={formData.lastname} />
+                                <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="email" label="E-mail"  value={formData.email} />
+                                <TextField sx={{ input: { color: 'primary.text' } , padding: '20px'}} InputProps={{readOnly: true,}} id="username" label="Nick"  value={formData.username} />
+                            </Stack>
+                        </Paper>
+                    </Slide>
                 </Grid>
-                <Grid xs={2} sm={4} md={4} key={2}>
-                    <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
-                        <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Twój PDF</FormLabel>
-                        <Stack>
-                            <PDFuploader />
-                        </Stack>
-                    </Paper>
+                <Grid xs={1} key={2}>
+                    <Slide direction="left" in={true} style={{ transitionDelay: '400ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                        <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
+                            <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Twój PDF</FormLabel>
+                            <Stack>
+                                <PDFuploader />
+                            </Stack>
+                        </Paper>
+                    </Slide>
+                </Grid>
+                <Grid xs={1} key={3}>
+                    <Slide direction="left" in={true} style={{ transitionDelay: '800ms', transitionDuration: '1200ms'}} mountOnEnter unmountOnExit>
+                        <Paper elevation={2} sx={{ margin: '10px', backgroundColor: 'primary.darkest'}} >
+                            <FormLabel component="legend"  sx={{ fontSize:"30px", textAlign: 'center',  color: 'primary.text', fontWeight: 'bold', margin: '20px'  }}>Zresetuj postęp w planie treningowym</FormLabel>
+                            <Stack>
+                                <ResetProgress />
+                            </Stack>
+                        </Paper>
+                    </Slide>
                 </Grid>
             </Grid>
         </>

@@ -14,12 +14,15 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { deepOrange, green } from '@mui/material/colors';
 import useAuth from '../../hooks/useAuth';
+import useCourse from "../../hooks/useCourse";
+import {mapNameToLink, mapNameToShortName} from "../dashboard/progress/mapNameToLink";
 
 
 function Header(props) {
   const { onDrawerToggle } = props;
   const { auth } = useAuth();
   const [date, setDate] = React.useState("");
+  const { course } = useCourse();
 
   function startTime() {
     const today = new Date();
@@ -45,6 +48,13 @@ function Header(props) {
     const myTimeout = setTimeout(() => startTime(), 1000);
     return () => clearTimeout(myTimeout);
   })
+
+  function trimHeaderAndReturnName(str) {
+      let indexOfColon = str.indexOf(':');
+      let header = str.slice(indexOfColon + 2);
+      let shortName = mapNameToShortName(header);
+      return course.exercises[shortName].confirmExerciseActive;
+  }
 
   return (
     <React.Fragment >
@@ -94,7 +104,6 @@ function Header(props) {
       </AppBar>
       <AppBar
         component="div"
-        
         position="static"
         elevation={0}
         sx={{ zIndex: 0 }}

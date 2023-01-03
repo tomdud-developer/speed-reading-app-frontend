@@ -31,6 +31,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import useCourse from "../../hooks/useCourse";
+import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
 TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -201,6 +202,10 @@ export default function PointerMedium() {
                             <RestartAltIcon/>
                             Reset
                         </SteeringButton>
+                        {
+                            course.exercises.pointermedium.confirmExerciseActive &&
+                            <ConfirmExerciseDone exerciseName="pointermedium" />
+                        }
                     </Item>
                 </Grid>
             </Grid>
