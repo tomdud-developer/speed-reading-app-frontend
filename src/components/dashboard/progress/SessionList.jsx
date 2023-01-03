@@ -1,30 +1,50 @@
 import * as React from 'react';
+import {Link} from "react-router-dom";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
 import Button from '@mui/material/Button';
-import {Typography} from "@mui/material";
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import useCourse from "../../../hooks/useCourse";
+import {mapNameToLink, mapNameToShortName} from "./mapNameToLink";
 
-export const SessionList = () => {
+export const SessionList = (props) => {
+        const {course, setCourse} = useCourse();
+        const [checked, setChecked] = React.useState([7]);
+        //console.log('fromSessionListComponent', mapNameToLink(props.session[0].name))
 
-        const [checked, setChecked] = React.useState([0,2]);
+        const setActiveExercise = (name, indexInSession, param1, param2) => {
+            let exerciseShortName = mapNameToShortName(name);
+            let jsonExercise = {};
+            jsonExercise[exerciseShortName] = {
+                confirmExerciseActive: true,
+                indexInSession: indexInSession,
+                param1: param1,
+                param2: param2,
+            };
+            setCourse({
+                ...course,
+                exercises: {
+                    ...course.exercises,
+                    ...jsonExercise,
+                }
+            })
+        }
+
 
         return (
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {[0, 1, 2, 3].map((value) => {
+                {props.session.map((value) => {
                     const labelId = `checkbox-list-label-${value}`;
 
                     return (
                         <ListItem
-                            key={value}
+                            key={'list-item' + value.id}
                             secondaryAction={
-                                <Button variant="contained" color="four" disabled={false}>
+                                <Button component={Link} to={`/${mapNameToLink(value.name)}`} variant="contained" onClick={() => {setActiveExercise(value.name, value.indexInSession, value.param1, value.param2)}} color="four" disabled={value.indexInSession != course.finishedExercise+1}>
                                     Ćwicz
                                     <PlayCircleFilledIcon sx={{marginLeft: "10px"}} />
                                 </Button>
@@ -35,15 +55,14 @@ export const SessionList = () => {
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
-                                        checked={checked.indexOf(value) !== -1}
+                                        checked={value.indexInSession <= course.finishedExercise}
                                         tabIndex={-1}
                                         disableRipple
                                         inputProps={{ 'aria-labelledby': labelId }}
                                         color={"secondary"}
-
                                     />
                                 </ListItemIcon>
-                                <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+                                <ListItemText id={labelId} primary={`${value.name} ${value.param1!=-1?', '+value.param1:""} ${value.param2!=-1?', '+value.param2:""}`} />
                             </ListItemButton>
                         </ListItem>
                     );

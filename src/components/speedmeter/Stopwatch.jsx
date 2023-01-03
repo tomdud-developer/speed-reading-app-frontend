@@ -8,20 +8,22 @@ import { Typography } from '@mui/material';
 export default function Stopwatch(props) {
 
     const [time, setTime] = React.useState(0);
-    const [running, setRunning] = React.useState(false);
+
+
+
 
     React.useEffect(() => {
       let interval;
-      if (running) {
+      if (props.running) {
         interval = setInterval(() => {
           setTime((prevTime) => prevTime + 1000);
           props.setTimeFromParent((prevTime) => prevTime + 1000);
         }, 1000);
-      } else if (!running) {
+      } else if (!props.running) {
         clearInterval(interval);
       }
       return () => clearInterval(interval);
-    }, [running]);
+    }, [props.running]);
 
     return (
       <>
@@ -39,8 +41,8 @@ export default function Stopwatch(props) {
           </Grid>
         </Box>
         <div className="buttons">
-          <Button color="secondary" variant="contained" onClick={() => setRunning(true)}>Start</Button>
-          <Button color="secondary"  variant="contained" onClick={() => setRunning(false)}>Stop</Button>
+          <Button color="secondary" variant="contained" onClick={() => props.setRunning(true)}>Start</Button>
+          <Button color="secondary"  variant="contained" onClick={() => props.setRunning(false)}>Stop</Button>
           <Button color="secondary"  variant="contained" onClick={() => setTime(0)}>Reset</Button>       
         </div>
       </>

@@ -25,6 +25,7 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
+import useCourse from "../../hooks/useCourse";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -83,21 +84,21 @@ const StyledData = styled(Typography)`
 
 
 export default function FonetizationRemover(props) {
-    
 
+    const { course } = useCourse();
     const classes = useStyles();
     const [page, setPage] = React.useState(1);
     const [fontSize, setFontSize] = React.useState(20);
     const [text, setText] = React.useState("Ładuję...");
     const { auth } = useAuth();
     const [content, setContent] = React.useState(<></>);
-    const [columns, setColumns] = React.useState(5);
+    const [columns, setColumns] = React.useState(course.exercises.fonetizationremover.param2);
     const [rows, setRows] = React.useState(25);
     const currColumn = React.useRef(0);
     const currRow = React.useRef(0);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
-    const [delay, setDelay] = React.useState(1000);
+    const [delay, setDelay] = React.useState(course.exercises.fonetizationremover.param1);
 
     React.useEffect(() => {
       let interval;

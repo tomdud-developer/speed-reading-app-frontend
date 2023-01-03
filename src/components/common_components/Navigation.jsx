@@ -21,7 +21,7 @@ let categories = [
     id: 'Mierniki',
     children: [
       { id: 'Prędkości czytania', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
-      { id: 'Zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/offer-generator' },
+      { id: 'Zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/understand-meter' },
     ],
   },
   {

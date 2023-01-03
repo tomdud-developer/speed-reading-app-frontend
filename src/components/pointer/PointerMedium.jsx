@@ -30,6 +30,7 @@ import PathPlugin from 'rc-tween-one/lib/plugin/PathPlugin';
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import useCourse from "../../hooks/useCourse";
 TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -67,9 +68,10 @@ const SteeringButton = styled(Button)`
 
 export default function PointerMedium() {
 
+    const { course } = useCourse();
     const [fontSize, setFontSize] = React.useState(20);
     const [text, setText] = React.useState("Ładuję tekst ... ");
-    const [speed, setSpeed] = React.useState(50);
+    const [speed, setSpeed] = React.useState(course.exercises.pointerbasic.param1);
     const [time, setTime] = React.useState(0);
     const { auth } = useAuth();
     const [path, setPath] = React.useState(`M 0 35 L 1000 35`);

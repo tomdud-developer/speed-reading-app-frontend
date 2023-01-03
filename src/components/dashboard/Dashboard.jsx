@@ -62,7 +62,6 @@ export default function Dashboard() {
                     <Progress />
                 </Item>
             </Grid>
-
         </Grid>
        
       </>

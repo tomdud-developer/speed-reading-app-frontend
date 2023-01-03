@@ -22,6 +22,7 @@ import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import useCourse from "../../../hooks/useCourse";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -71,8 +72,8 @@ const SteeringButton = styled(Button)`
 export default function ColumnsOfNumbers(props) {
 
     const { auth } = useAuth();
-
-    const [hardLevel, setHardLevel] = React.useState(3);
+    const { course } = useCourse();
+    const [hardLevel, setHardLevel] = React.useState(course.exercises.perceptionexercise2.param1);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
     const [content, setContent] = React.useState();

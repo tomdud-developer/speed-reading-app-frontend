@@ -24,6 +24,7 @@ import SchultzArray from "./components/eyeshot/SchultzArray";
 import PointerMedium from "./components/pointer/PointerMedium";
 import ColumnsOfNumbers from "./components/perception/excercise/ColumnsOfNumbers";
 import Pyramid from "./components/eyeshot/Pyramid";
+import UnderstandMeter from "./components/understandmeter/UnderstandMeter";
 
 export default function App() {
 
@@ -89,6 +90,7 @@ export default function App() {
                   <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
                     <Route path="/dashboard/" exact element={<Dashboard />} />
                     <Route path="/speed-meter/" exact element={<Speedmeter />} />
+                    <Route path="/understand-meter/" exact element={<UnderstandMeter />} />
                     <Route path="/perception-exercise-1/" exact element={<Perception1 />} />
                     <Route path="/perception-exercise-2/" exact element={<ColumnsOfNumbers />} />
                     <Route path="/settings/" exact element={<Settings />} />

@@ -27,6 +27,7 @@ import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import useCourse from "../../hooks/useCourse";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -68,11 +69,12 @@ const DataBoxContainer = styled(Box)(({ theme }) => ({
 
 export default function SchultzArray(props) {
 
+    const { course } = useCourse();
     const classes = useStyles();
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
-    const [columns, setColumns] = React.useState(5);
-    const [rows, setRows] = React.useState(5);
+    const [rows, setRows] = React.useState(course.exercises.schultzarray.param1);
+    const [columns, setColumns] = React.useState(course.exercises.schultzarray.param2);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
     const [content, setContent] = React.useState();

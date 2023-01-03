@@ -35,6 +35,7 @@ import ViewWeekIcon from "@mui/icons-material/ViewWeek";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import useCourse from "../../../hooks/useCourse";
 
 
 export default function FastWords(props) {
@@ -54,17 +55,18 @@ export default function FastWords(props) {
         margin-right: 20px;
         min-width: 100px;
     `
-
+    const { course } = useCourse();
     const { auth } = useAuth();
     const [displayWord, setDisplayWord] =  React.useState('Zatrzymano');
-    const [numberDisplayedWords, setNumberDisplayedWords] = React.useState(1);
+    const [numberDisplayedWords, setNumberDisplayedWords] = React.useState(course.exercises.fastwords.param2);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
-    const [delay, setDelay] = React.useState(300);
+    const [delay, setDelay] = React.useState(course.exercises.fastwords.param1);
     const [counter, setCounter] = React.useState(0);
     const [wordsArray, setWordsArray] = React.useState(["Pusto"]);
     const currIndex = React.useRef(0);
-    const [mode, setMode] = React.useState('Losowy');
+    const [mode, setMode] = React.useState('Czytanie');
+
 
     React.useEffect(() => {
         let interval;
