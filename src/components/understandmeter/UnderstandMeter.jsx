@@ -14,7 +14,7 @@ import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { makeStyles } from '@material-ui/core';
-import Stopwatch from './Stopwatch.jsx';
+import Stopwatch from '../speedmeter/Stopwatch.jsx';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -27,6 +27,8 @@ import useAuth from '../../hooks/useAuth';
 import useCourse from "../../hooks/useCourse";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import {Quiz} from "./Quiz";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -54,7 +56,7 @@ const useStyles = makeStyles(() => ({
 
 
 
-export default function Speedmeter() {
+export default function UnderstandMeter() {
     
     const getText = (page) => {
         let splited = sampletext.split(" ");
@@ -77,12 +79,12 @@ export default function Speedmeter() {
     const [severity, setSeverity] = React.useState("error");
     const [alertMessage, setAlertMessage] = React.useState("Loading");
     const [running, setRunning] = React.useState(false);
-
+    const [mode, setMode] = React.useState("Czytanie");
     const handleClose = () => {setOpenDialog(false)};
 
 
     React.useEffect(() => {
-        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&2000`)
+        axiosPrivate.get(`api/v1/understanding-meter/text/1`)
         .then(
             (result) => {
                 setSampleText(result.data);
@@ -92,7 +94,7 @@ export default function Speedmeter() {
         }, []);
     
 
-    React.useEffect(() => setText(getText(page), [page]));
+    React.useEffect(() => setText(getText(page), [getText, page]));
 
     const changeWordsPerPage = (event, newValue) => {
         setWordsPerPage(newValue);
@@ -143,7 +145,7 @@ export default function Speedmeter() {
                 <Grid xs={8}>
                     <YellowPaper>
                         <BookPaper>
-                        {text}
+                            {mode==="Czytanie"?<>{text}</>:<Quiz wordsperminute={Math.ceil(totalWords / (time / 1000 / 60))} />}
                         </BookPaper>
                     </YellowPaper>
                     <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
@@ -165,9 +167,12 @@ export default function Speedmeter() {
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{totalWords}</b> słów</Typography>
                         </Stack>
+                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                            <WysiwygIcon color="secondary" /><Typography>Tryb: <b>{mode}</b></Typography>
+                        </Stack>
                         <Stopwatch setTimeFromParent={setTime} setRunning={setRunning} running={running} />
                         <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
-                            <Button variant="contained" onClick={() =>{setOpenDialog(true); setRunning(false);}}>Zatrzymaj i oblicz wynik</Button>
+                            <Button variant="contained" onClick={() =>{setOpenDialog(true); setRunning(false);}}>Zatrzymaj i przejdź do trybu odpowiedzi</Button>
                         </Stack>
                     </Item>
                 </Grid>
@@ -182,12 +187,12 @@ export default function Speedmeter() {
                 <DialogContent>
                     <DialogContentText color="typography.book.color">
                         Twój wynik to {Math.ceil(totalWords / (time / 1000 / 60))} słów na minutę.
-                        Czy chcesz zapisać tą wartość?
+                        Czy chcesz przejść do trybu odpowiedzi?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant='contained' color="success" onClick={() => {postResult(); handleClose();}} >Zapisz</Button>
-                    <Button variant='contained' color="error" onClick={handleClose} >Odrzuć</Button>
+                    <Button variant='contained' color="success" onClick={() => {setMode("Odpowiadanie"); handleClose();}} >Przejdź</Button>
+                    <Button variant='contained' color="error" onClick={handleClose} >Zamknij</Button>
                 </DialogActions>
                 </Paper>
             </Dialog>

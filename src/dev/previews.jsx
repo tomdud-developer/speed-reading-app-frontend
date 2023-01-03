@@ -4,6 +4,7 @@ import {PaletteTree} from './palette';
 import Perception1 from "../components/perception/excercise/Perception1";
 import {NumberInputField} from "../components/perception/excercise/NumberInputField";
 import {SessionList} from "../components/dashboard/progress/SessionList";
+import CourseContextProvider from "../context/CourseContextProvider";
 
 const ComponentPreviews = () => {
     return (
@@ -16,6 +17,10 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/SessionList">
                 <SessionList/>
+            </ComponentPreview>
+            <ComponentPreview
+                path="/CourseContextProvider">
+                <CourseContextProvider/>
             </ComponentPreview>
         </Previews>
     );

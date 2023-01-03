@@ -24,6 +24,7 @@ import axios from 'axios';
 import { axiosPrivate } from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
 import {NumberInputField} from "./NumberInputField";
+import useCourse from "../../../hooks/useCourse";
 
 
 export default function Perception1(props) {
@@ -37,11 +38,12 @@ export default function Perception1(props) {
         color: theme.palette.text.secondary,
       }));
 
+    const { course } = useCourse();
     const [displayNumber, setDisplayNumber] =  React.useState('???');
     const [number, setNumber] =  React.useState();
     const [userNumber, setUserNumber] =  React.useState("");
     const [alertState, setAlertState] = React.useState(-1);
-    const [difficulty, setDifficulty] = React.useState(1);
+    const [difficulty, setDifficulty] = React.useState(course.exercises.perceptionexercise1.param1);
     const [progressGood, setProgressGood] = React.useState(0);
     const [progressBad, setProgressBad] = React.useState(0);
     const [isOnStartButtonDisabled, setIsOnStartButtonDisabled] = React.useState(false);

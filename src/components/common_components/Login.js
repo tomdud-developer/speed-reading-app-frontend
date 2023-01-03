@@ -53,7 +53,7 @@ const Login = () => {
             const lastname = response.data.lastname;
             const email = response.data.email;
             const appuserid = Number(response.data.appuserid);
-            setAuth({ user, pwd, roles, accessToken, firstname, lastname, appuserid, email });
+            setAuth({ user, roles, accessToken, firstname, lastname, appuserid, email });
             setUser('');
             setPwd('');
             navigate("/dashboard", { replace: true });
