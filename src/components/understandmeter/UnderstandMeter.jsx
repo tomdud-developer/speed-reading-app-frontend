@@ -29,6 +29,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import {Quiz} from "./Quiz";
+import Slide from '@mui/material/Slide';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -80,6 +81,7 @@ export default function UnderstandMeter() {
     const [alertMessage, setAlertMessage] = React.useState("Loading");
     const [running, setRunning] = React.useState(false);
     const [mode, setMode] = React.useState("Czytanie");
+    const [canRun, setCanRun] = React.useState(false);
     const handleClose = () => {setOpenDialog(false)};
 
 
@@ -89,6 +91,7 @@ export default function UnderstandMeter() {
             (result) => {
                 setSampleText(result.data);
                 setTotalWords(result.data.split(" ").length)
+                setCanRun(true);
             }
             );
         }, []);
@@ -102,33 +105,6 @@ export default function UnderstandMeter() {
         setText(getText(page));
     }
 
-    const postResult = async () => {
-        await axiosPrivate.post("api/v1/speed-meter-log/save",
-            {
-                appUser: {
-                    id: auth.appuserid
-                },
-                wordsperminute: Math.ceil(totalWords / (time / 1000 / 60)),
-                date: new Date().toISOString()
-            }
-        ).then( () => {
-                setAlertMessage("Zapisano w bazie!");
-                setSeverity("success");
-                if (course.exercises.speedmeter.confirmExerciseActive) {
-                    axiosPrivate.post(`api/v1/user-progress/confirm-exercise/${auth.appuserid}&${course.exercises.speedmeter.indexInSession}`).then(() => {
-                        setAlertMessage("Zapisano w bazie! I potwierdzono wykonanie ćwiczenia w sesji!");
-                    });
-                }
-                setSnackOpen(true);
-            }
-        ).catch((error) =>  {
-            setSeverity("error");
-            setAlertMessage(error.message);
-            setSnackOpen(true);
-            console.log(error);
-        });
-    }
-
     let BookPaper = styled(Paper)(({ theme }) => ({
         backgroundColor: '#e3ddcc',
         ...theme.typography.book,
@@ -139,7 +115,7 @@ export default function UnderstandMeter() {
     }));
 
 
-    return (
+    return canRun && (
         <>
             <Grid container spacing={2}>
                 <Grid xs={8}>
@@ -153,28 +129,30 @@ export default function UnderstandMeter() {
                     </Stack>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <TextDecreaseIcon color="secondary"/>
-                            <Slider color="secondary" valueLabelDisplay="on" value={fontSize} onChange={(event, newValue) => {setFontSize(newValue)}} />
-                            <TextIncreaseIcon color="secondary"/>
-                        </Stack>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <FirstPageIcon color="secondary"/>
-                            <Slider color="secondary" valueLabelDisplay="on" value={wordsPerPage} max={1000} onChange={changeWordsPerPage} />
-                            <LastPageIcon color="secondary"/>
-                        </Stack>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{totalWords}</b> słów</Typography>
-                        </Stack>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <WysiwygIcon color="secondary" /><Typography>Tryb: <b>{mode}</b></Typography>
-                        </Stack>
-                        <Stopwatch setTimeFromParent={setTime} setRunning={setRunning} running={running} />
-                        <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
-                            <Button variant="contained" onClick={() =>{setOpenDialog(true); setRunning(false);}}>Zatrzymaj i przejdź do trybu odpowiedzi</Button>
-                        </Stack>
-                    </Item>
+                    <Slide direction="left" in={canRun} style={{ transitionDelay: '500ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                        <Item>
+                            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                                <TextDecreaseIcon color="secondary"/>
+                                <Slider color="secondary" valueLabelDisplay="on" value={fontSize} onChange={(event, newValue) => {setFontSize(newValue)}} />
+                                <TextIncreaseIcon color="secondary"/>
+                            </Stack>
+                            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                                <FirstPageIcon color="secondary"/>
+                                <Slider color="secondary" valueLabelDisplay="on" value={wordsPerPage} max={1000} onChange={changeWordsPerPage} />
+                                <LastPageIcon color="secondary"/>
+                            </Stack>
+                            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                                <FormatListNumberedIcon color="secondary" /> <Typography>Tekst zawiera <b>{totalWords}</b> słów</Typography>
+                            </Stack>
+                            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                                <WysiwygIcon color="secondary" /><Typography>Tryb: <b>{mode}</b></Typography>
+                            </Stack>
+                            <Stopwatch setTimeFromParent={setTime} setRunning={setRunning} running={running} />
+                            <Stack spacing={2} direction="column" sx={{ mb: 1 }} alignItems="center">
+                                <Button variant="contained" onClick={() =>{setOpenDialog(true); setRunning(false);}}>Zatrzymaj i przejdź do trybu odpowiedzi</Button>
+                            </Stack>
+                        </Item>
+                    </Slide>
                 </Grid>
             </Grid>
 

@@ -3,67 +3,82 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-
+import Slide from '@mui/material/Slide';
 import SpeedMeterLogsChart from './SpeedMeterLogsChart';
 import { Typography } from '@mui/material';
 import GaugaeChartLastSpeedMeterLog from './GaugaeChartLastSpeedMeterLog';
 import SchultzBestTimesGrid from "./SchultzBestTimesGrid";
 import {Progress} from "./progress/Progress";
+import ColumnNumbersExerciseTimesGrid from "./ColumnNumbersExerciseTimesGrid";
+import DisapperarNumbersExercisePercentageGrid from "./DisapperarNumbersExercisePercentageGrid";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
+    backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
     color: theme.palette.text.secondary,
+    width: "100%",
+
 }));
 
 export default function Dashboard() {
 
     return (
       <>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          <Grid xs={2} sm={4} md={4} key={1}>
-                <Item
-                    sx={{
-                        height: '250px',
-                        maxHeight: '250px',
-                        minHeight: '250px',
-                    }}
-                >
-                  <GaugaeChartLastSpeedMeterLog />
-                </Item>
-            </Grid>
-            <Grid xs={2} sm={4} md={8} key={2}>
-              <Item>
-                <SpeedMeterLogsChart />
-              </Item>
-            </Grid>
-            <Grid xs={2} sm={4} md={4} key={3}>
-                <Item
-                    sx={{
-                        height: '250px',
-                        maxHeight: '250px',
-                        minHeight: '250px',
-                    }}
-                >
-                    <SchultzBestTimesGrid />
-                </Item>
-            </Grid>
-            <Grid xs={2} sm={4} md={4} key={4}>
-                <Item
-                    sx={{
-                        height: '500px',
-                        maxHeight: '500px',
-                        minHeight: '500px',
-                        width: '1000px'
-                    }}
-                >
-                    <Progress />
-                </Item>
-            </Grid>
-        </Grid>
-       
+          {/*Divide screen to two containers*/}
+          <Grid container spacing={1.5} columns={{ xs: 3}}>
+              <Grid xs={1} key="left-grid-item">
+                  <Grid container spacing={3} columns={{ xs: 1}}>
+                      <Grid xs={1} key="gaugechart-grid-item">
+                          <Slide direction="up" in={true} style={{ transitionDelay: '400ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                          <Item>
+                              <GaugaeChartLastSpeedMeterLog />
+                          </Item>
+                          </Slide>
+                      </Grid>
+                      <Grid xs={1} key="schulze-grid-item">
+                          <Slide direction="up" in={true} style={{ transitionDelay: '800ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                              <Item>
+                                  <SchultzBestTimesGrid />
+                              </Item>
+                          </Slide>
+                      </Grid>
+                      <Grid xs={1} key="columnsnumbers-grid-item">
+                          <Slide direction="up" in={true} style={{ transitionDelay: '1200ms', transitionDuration: '1200ms'}} mountOnEnter unmountOnExit>
+                              <Item>
+                                  <ColumnNumbersExerciseTimesGrid />
+                              </Item>
+                          </Slide>
+                      </Grid>
+                      <Grid xs={1} key="disappearnumbers-grid-item">
+                          <Slide direction="up" in={true} style={{ transitionDelay: '1600ms', transitionDuration: '1000ms'}} mountOnEnter unmountOnExit>
+                              <Item>
+                                  <DisapperarNumbersExercisePercentageGrid />
+                              </Item>
+                          </Slide>
+                      </Grid>
+                  </Grid>
+              </Grid>
+              <Grid xs={2} key="right-grid-item">
+                  <Grid container spacing={3} columns={{ xs: 1}}>
+                      <Grid xs={1} key="chart-grid-item">
+                          <Slide direction="left" in={true} style={{ transitionDelay: '500ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                              <Item>
+                                  <SpeedMeterLogsChart />
+                              </Item>
+                          </Slide>
+                      </Grid>
+                      <Grid xs={1} key="progress-grid-item">
+                          <Slide direction="up" in={true} style={{ transitionDelay: '800ms', transitionDuration: '1500ms'}} mountOnEnter unmountOnExit>
+                              <Item>
+                                  <Progress />
+                              </Item>
+                          </Slide>
+                      </Grid>
+                  </Grid>
+              </Grid>
+          </Grid>
       </>
     )
 

@@ -26,6 +26,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
 import useCourse from "../../hooks/useCourse";
+import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -298,6 +299,10 @@ export default function FonetizationRemover(props) {
                             <RestartAltIcon/>
                             Reset
                         </SteeringButton>
+                        {
+                            course.exercises.fonetizationremover.confirmExerciseActive &&
+                            <ConfirmExerciseDone exerciseName="fonetizationremover" />
+                        }
                     </Item>
                 </Grid>
             </Grid>

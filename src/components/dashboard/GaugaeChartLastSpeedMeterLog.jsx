@@ -22,6 +22,7 @@ export default function GaugaeChartLastSpeedMeterLog(props) {
         <Box
             sx={{
                 height: '250px',
+                width: '100%',
                 display: 'flex',
                 justifyContent: 'center'
             }}

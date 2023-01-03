@@ -15,36 +15,46 @@ import { Link } from "react-router-dom";
 import Image from 'mui-image'
 import { useTheme } from '@mui/material';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import SpeedIcon from '@mui/icons-material/Speed';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import ApprovalIcon from '@mui/icons-material/Approval';
+import ViewWeekIcon from '@mui/icons-material/ViewWeek';
+import LayersClearIcon from '@mui/icons-material/LayersClear';
+import SwitchAccessShortcutAddIcon from '@mui/icons-material/SwitchAccessShortcutAdd';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import DetailsIcon from '@mui/icons-material/Details';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 let categories = [
   {
     id: 'Mierniki',
     children: [
-      { id: 'Prędkości czytania', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
-      { id: 'Zrozumienia tekstu', icon: <PhonelinkSetupIcon sx={{color: 'secondary.main'}} />, active: false, path: '/understand-meter' },
+      { id: 'Prędkości czytania', icon: <SpeedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/speed-meter' },
+      { id: 'Zrozumienia tekstu', icon: <PsychologyIcon sx={{color: 'secondary.main'}} />, active: false, path: '/understand-meter' },
     ],
   },
   {
     id: 'Percepcja wzrokowa',
     children: [
-      { id: 'Znikające liczby', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
-      { id: 'Kolumny liczb', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-2'},
-      { id: 'Eliminacja fonetyzacji', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
-      { id: 'Szybkie słowa', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fast-words' },
+      { id: 'Znikające liczby', icon: <ApprovalIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-1'},
+      { id: 'Kolumny liczb', icon: <ViewWeekIcon sx={{color: 'secondary.main'}} />, active: false, path: '/perception-exercise-2'},
+      { id: 'Eliminacja fonetyzacji', icon: <LayersClearIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fonetization-remover' },
+      { id: 'Szybkie słowa', icon: <SwitchAccessShortcutAddIcon sx={{color: 'secondary.main'}} />, active: false, path: '/fast-words' },
     ],
   },
   {
     id: 'Pole widzenia',
     children: [
-      {id: 'Tablice Schultza', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/schultz-array'},
-      {id: 'Piramida liczbowa', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pyramid'},
+      {id: 'Tablice Schultza', icon: <DataArrayIcon sx={{color: 'secondary.main'}} />, active: false, path: '/schultz-array'},
+      {id: 'Piramida liczbowa', icon: <DetailsIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pyramid'},
     ],
   },
   {
     id: 'Czytanie ze wskaźnikiem',
     children: [
-      {id: 'Podstawowy', icon: <PeopleIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-basic'},
-      { id: 'Średni', icon: <DnsRoundedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-medium' },
+      {id: 'Podstawowy', icon: <GpsFixedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-basic'},
+      { id: 'Średni', icon: <GpsFixedIcon sx={{color: 'secondary.main'}} />, active: false, path: '/pointer-medium' },
     ],
   },
   {
@@ -109,7 +119,7 @@ export default function Navigation(props) {
                 sx={item}
                 onClick={() => { props.onComponentChange(`Panel główny`); toogleActiveCategory("dashboard", "dashboard"); setDashboardActive(true) }}
             >
-              <ListItemIcon> <HomeIcon sx={{color: 'secondary.main'}} /> </ListItemIcon>
+              <ListItemIcon> <DashboardIcon sx={{color: 'secondary.main'}} /> </ListItemIcon>
               <ListItemText>Panel główny</ListItemText>
             </ListItemButton>
           </Link>

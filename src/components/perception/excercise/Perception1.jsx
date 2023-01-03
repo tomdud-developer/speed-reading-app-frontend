@@ -25,6 +25,7 @@ import { axiosPrivate } from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
 import {NumberInputField} from "./NumberInputField";
 import useCourse from "../../../hooks/useCourse";
+import Snackbar from "@mui/material/Snackbar";
 
 
 export default function Perception1(props) {
@@ -38,9 +39,11 @@ export default function Perception1(props) {
         color: theme.palette.text.secondary,
       }));
 
+    const { auth } = useAuth();
     const { course } = useCourse();
     const [displayNumber, setDisplayNumber] =  React.useState('???');
     const [number, setNumber] =  React.useState();
+    const [max, setMax] = React.useState(3);
     const [userNumber, setUserNumber] =  React.useState("");
     const [alertState, setAlertState] = React.useState(-1);
     const [difficulty, setDifficulty] = React.useState(course.exercises.perceptionexercise1.param1);
@@ -48,6 +51,44 @@ export default function Perception1(props) {
     const [progressBad, setProgressBad] = React.useState(0);
     const [isOnStartButtonDisabled, setIsOnStartButtonDisabled] = React.useState(false);
     const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = React.useState(true);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [snackOpen, setSnackOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("Loading");
+    const [severity, setSeverity] = React.useState("error");
+
+    const handleClose = () => {
+        setOpenDialog(false);
+        setProgressGood(0);
+        setProgressBad(0);
+        setAlertMessage("Loading");
+    };
+
+    function constructJson(jsonKey, jsonValue){
+        let jsonObj = {"key1": jsonValue};
+        jsonObj[jsonKey] = jsonValue;
+        return jsonObj;
+    }
+
+    const postResult = async () => {
+        let jsonObj = constructJson(`log${difficulty}`, Math.ceil((progressGood / max ) * 100));
+        await axiosPrivate.put(`/api/v1/numbers-disappear-logs/save/${auth.appuserid}`, jsonObj)
+            .then( () => {
+                setAlertMessage("Zapisano w bazie!");
+                setSeverity("success");
+                if (course.exercises.perceptionexercise1.confirmExerciseActive) {
+                    axiosPrivate.post(`api/v1/user-progress/confirm-exercise/${auth.appuserid}&${course.exercises.perceptionexercise1.indexInSession}`).then(() => {
+                        setAlertMessage("Zapisano w bazie! I potwierdzono wykonanie ćwiczenia w sesji!");
+                    });
+                }
+                setSnackOpen(true);
+            }
+        ).catch((error) =>  {
+            setSeverity("error");
+            setAlertMessage(error.message);
+            setSnackOpen(true);
+            console.log(error);
+        });
+    }
 
     const getRandomNumber = (difficultyLevel) => {
         let min = Math.pow(10, difficultyLevel);
@@ -65,7 +106,6 @@ export default function Perception1(props) {
         setDisplayNumber(randomNumber);
         await new Promise(resolve => setTimeout( resolve, 500 + difficulty * 100 ));
         setDisplayNumber("???");
-
         setIsOnStartButtonDisabled(true);
         setIsConfirmButtonDisabled(false);
     }
@@ -82,6 +122,12 @@ export default function Perception1(props) {
         setIsOnStartButtonDisabled(false);
         setIsConfirmButtonDisabled(true);
     }
+
+    React.useEffect(() => {
+        if(progressGood + progressBad >= max){
+            setOpenDialog(true);
+        }
+    }, [progressGood, progressBad]);
 
 
     return (
@@ -160,25 +206,56 @@ export default function Perception1(props) {
                             <Box sx={{ width: '100%' }}>
                                 <LinearProgress
                                     variant="buffer"
-                                    value={(progressGood + progressBad) / 40 * 100}
-                                    valueBuffer={ (progressGood + progressBad + 1) / 40 * 100}
+                                    value={(progressGood + progressBad) / max * 100}
+                                    valueBuffer={ (progressGood + progressBad + 1) / max * 100}
                                     color="secondary"
                                 />
                             </Box>
-                            <Typography variant='h6'>{`${progressGood+progressBad}/40`}</Typography>
+                            <Typography variant='h6'>{`${progressGood+progressBad}/${max}`}</Typography>
                         </Stack>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <Typography variant='h4'>Poprawne: </Typography>
-                            <Typography variant='h5'>{`${progressGood}/40`}</Typography>
+                            <Typography variant='h5'>{`${progressGood}/${max}`}</Typography>
                         </Stack>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <Typography variant='h4'>Błędne: </Typography>
-                            <Typography variant='h5'>{`${progressBad}/40`}</Typography>
+                            <Typography variant='h5'>{`${progressBad}/${max}`}</Typography>
                         </Stack>
                     </Item>
                 </Grid>
             </Grid>
-
+            <Dialog open={openDialog} onClose={handleClose} >
+                <Paper sx={{bgcolor: "primary.main"}}>
+                    <DialogTitle>
+                        {"Gratulacje"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText color="typography.book.color">
+                            Twój wynik to {Math.ceil(progressGood / max * 100)}% poprawnych odpowiedzi.
+                            Wynik uzyskano dla poziomu {difficulty}.
+                            Czy chcesz zapisać tą wartość?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant='contained' color="success" onClick={() => {postResult(); handleClose();}} >Zapisz</Button>
+                        <Button variant='contained' color="error" onClick={handleClose} >Odrzuć</Button>
+                    </DialogActions>
+                </Paper>
+            </Dialog>
+            <Snackbar
+                open={snackOpen}
+                autoHideDuration={6000}
+                onClose={() => {setSnackOpen(false);}}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+            >
+                <Alert
+                    onClose={() => {setSnackOpen(false);}}
+                    severity={severity}
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </>
         
     )

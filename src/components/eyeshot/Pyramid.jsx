@@ -23,6 +23,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import useCourse from "../../hooks/useCourse";
+import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -222,6 +223,10 @@ export default function Pyramid(props) {
                             <RestartAltIcon/>
                             Reset
                         </SteeringButton>
+                        {
+                            course.exercises.pyramid.confirmExerciseActive &&
+                            <ConfirmExerciseDone exerciseName="pyramid" />
+                        }
                     </Paper>
                 </Grid>
             </Grid>

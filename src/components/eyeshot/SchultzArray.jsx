@@ -81,9 +81,14 @@ export default function SchultzArray(props) {
     const schultzElementWidth = 90;
     const [nextNumber, setNextNumber] = React.useState(1);
     const [schultzArray, setSchultzArray] = React.useState([1]);
-    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [snackOpen, setSnackOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("Loading");
+    const [severity, setSeverity] = React.useState("error");
 
-    const [snackSuccessOpen, setSnackSuccessOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
 
     let BookPaper = styled(Paper)(({ theme }) => ({
         backgroundColor: '#e3ddcc',
@@ -164,7 +169,7 @@ export default function SchultzArray(props) {
         }
         if(nextNumber > schultzArray.length) {
             setRunning(false);
-            setDialogOpen(true);
+            setOpenDialog(true);
             console.log("Wygrałes", time);
         }
 
@@ -263,12 +268,21 @@ export default function SchultzArray(props) {
         let jsonObj = constructJson(`log${rows}x${columns}`, Math.ceil( (time / 1000 ))===0?1:Math.ceil( (time / 1000 )));
         await axiosPrivate.put(`api/v1/schultz-array-logs/save/${auth.appuserid}`, jsonObj)
             .then(function (response) {
-                console.log(response);
-                setSnackSuccessOpen(true);
-            })
-            .catch((error) =>  {
+                    setAlertMessage("Zapisano w bazie!");
+                    setSeverity("success");
+                    if (course.exercises.schultzarray.confirmExerciseActive) {
+                        axiosPrivate.post(`api/v1/user-progress/confirm-exercise/${auth.appuserid}&${course.exercises.schultzarray.indexInSession}`).then(() => {
+                            setAlertMessage("Zapisano w bazie! I potwierdzono wykonanie ćwiczenia w sesji!");
+                        });
+                    }
+                    setSnackOpen(true);
+                }
+            ).catch((error) =>  {
+                setSeverity("error");
+                setAlertMessage(error.message);
+                setSnackOpen(true);
                 console.log(error);
-            })
+            });
     }
 
 
@@ -368,7 +382,7 @@ export default function SchultzArray(props) {
             </Grid>
 
 
-            <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false)}} >
+            <Dialog open={openDialog} onClose={() => {setOpenDialog(false)}} >
                 <Paper sx={{bgcolor: "primary.main"}}>
                     <DialogTitle>
                         {"Gratulacje"}
@@ -385,20 +399,18 @@ export default function SchultzArray(props) {
                     </DialogActions>
                 </Paper>
             </Dialog>
-
             <Snackbar
-                open={snackSuccessOpen}
+                open={snackOpen}
                 autoHideDuration={6000}
-                onClose={() => {setSnackSuccessOpen(false);
-                setDialogOpen(false);}}
+                onClose={() => {setSnackOpen(false);}}
                 anchorOrigin={{vertical: 'top', horizontal: 'center'}}
             >
                 <Alert
-                    onClose={() => {setSnackSuccessOpen(false); setDialogOpen(false);}}
-                    severity="success"
+                    onClose={() => {setSnackOpen(false);}}
+                    severity={severity}
                     sx={{ width: '100%' }}
                 >
-                    Pomyślnie zapisano w bazie!
+                    {alertMessage}
                 </Alert>
             </Snackbar>
 

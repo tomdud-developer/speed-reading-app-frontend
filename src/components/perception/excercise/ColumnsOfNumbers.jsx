@@ -3,7 +3,7 @@ import { styled, keyframes } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Pagination, Typography, Slider } from '@mui/material';
+import {Button, Pagination, Typography, Slider, Alert} from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 import { makeStyles } from '@material-ui/core';
@@ -23,6 +23,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import useCourse from "../../../hooks/useCourse";
+import Snackbar from "@mui/material/Snackbar";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -79,18 +80,51 @@ export default function ColumnsOfNumbers(props) {
     const [content, setContent] = React.useState();
     const elementWidth = 50;
     const elementHeight = 25;
-    const [nextNumber, setNextNumber] = React.useState(1);
-    const [schultzArray, setSchultzArray] = React.useState([1]);
+    const max = 8;
     const [dialogOpen, setDialogOpen] = React.useState(false);
-    const [numbersArray, setNumbersArray] = React.useState(new Array(25).fill(0).map(() => new Array(8).fill(0)));
-    const [correctNumbersArray, setCorrectNumbersArray] = React.useState(new Array(8).fill(0).map(() => new Array(4).fill(0)));
+    const [numbersArray, setNumbersArray] = React.useState(new Array(25).fill(0).map(() => new Array(max).fill(0)));
+    const [correctNumbersArray, setCorrectNumbersArray] = React.useState(new Array(max).fill(0).map(() => new Array(4).fill(0)));
     const [refresh, setRefresh] = React.useState(false);
     const [reset, setReset] = React.useState(false);
     const [points, setPoints] = React.useState(0);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [snackOpen, setSnackOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("Loading");
+    const [severity, setSeverity] = React.useState("error");
 
+    const handleClose = () => {
+        setOpenDialog(false);
+        setAlertMessage("Loading");
+    };
+
+    function constructJson(jsonKey, jsonValue){
+        let jsonObj = {"key1": jsonValue};
+        jsonObj[jsonKey] = jsonValue;
+        return jsonObj;
+    }
+
+    const postResult = async () => {
+        let jsonObj = constructJson(`log${hardLevel}`, Math.ceil(time));
+        await axiosPrivate.put(`/api/v1/column-numbers-logs/save/${auth.appuserid}`, jsonObj)
+            .then( () => {
+                    setAlertMessage("Zapisano w bazie!");
+                    setSeverity("success");
+                    if (course.exercises.perceptionexercise2.confirmExerciseActive) {
+                        axiosPrivate.post(`api/v1/user-progress/confirm-exercise/${auth.appuserid}&${course.exercises.perceptionexercise2.indexInSession}`).then(() => {
+                            setAlertMessage("Zapisano w bazie! I potwierdzono wykonanie ćwiczenia w sesji!");
+                        });
+                    }
+                    setSnackOpen(true);
+                }
+            ).catch((error) =>  {
+                setSeverity("error");
+                setAlertMessage(error.message);
+                setSnackOpen(true);
+                console.log(error);
+            });
+    }
 
     const CommonArrayElement = styled(Box)`
-      
       max-width: ${elementWidth + (hardLevel<4?0:(hardLevel - 3) * 10)}px;
       max-height: ${elementHeight}px;
       min-width: ${elementWidth + (hardLevel<4?0:(hardLevel - 3) * 10)}px;
@@ -134,7 +168,7 @@ export default function ColumnsOfNumbers(props) {
     )
 
     React.useEffect(() => {
-            createRandomArray(25, 8);
+            createRandomArray(25, max);
             setRunning(false);
             setTime(0);
             setPoints(0);
@@ -144,7 +178,7 @@ export default function ColumnsOfNumbers(props) {
 
     React.useEffect(() => {
         const tab = [];
-        for(let c = 0; c < 8; c++)
+        for(let c = 0; c < max; c++)
             tab.push(
                 <Grid item sx={{marginRight: "15px", marginLeft: "15px"}}>
                     {createColumn(c)}
@@ -152,6 +186,11 @@ export default function ColumnsOfNumbers(props) {
             )
         setContent(tab);
     }, [numbersArray, correctNumbersArray, refresh])
+
+    React.useEffect(() => {
+        if(points === max)
+            setOpenDialog(true);
+    }, [points])
 
     const createRandomArray = (rows, cols) => {
         const array = new Array(rows).fill(0).map(() => new Array(cols).fill(0));
@@ -307,23 +346,38 @@ export default function ColumnsOfNumbers(props) {
             </Grid>
 
 
-            <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false)}} >
+            <Dialog open={openDialog} onClose={handleClose} >
                 <Paper sx={{bgcolor: "primary.main"}}>
                     <DialogTitle>
                         {"Gratulacje"}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText color="typography.book.color">
-                            Twój wynik to {Math.ceil( (time / 1000 ))} sekund dla siatki.
+                            Twój wynik to {Math.ceil(time)} sekund.
+                            Wynik uzyskano dla poziomu {hardLevel}.
                             Czy chcesz zapisać tą wartość?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='contained' color="success" >Zapisz</Button>
-                        <Button variant='contained' color="error" >Odrzuć</Button>
+                        <Button variant='contained' color="success" onClick={() => {postResult(); handleClose();}} >Zapisz</Button>
+                        <Button variant='contained' color="error" onClick={handleClose} >Odrzuć</Button>
                     </DialogActions>
                 </Paper>
             </Dialog>
+            <Snackbar
+                open={snackOpen}
+                autoHideDuration={6000}
+                onClose={() => {setSnackOpen(false);}}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+            >
+                <Alert
+                    onClose={() => {setSnackOpen(false);}}
+                    severity={severity}
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
 
 
         </>
