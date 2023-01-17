@@ -12,9 +12,11 @@ import {Button} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export const ConfirmExerciseDone = (props) => {
 
+    const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const { course } = useCourse();
     const [snackOpen, setSnackOpen] = React.useState(false);

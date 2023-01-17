@@ -22,12 +22,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 import useCourse from "../../hooks/useCourse";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Slide from '@mui/material/Slide';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -53,16 +53,14 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
-
-
 export default function Speedmeter() {
-    
     const getText = (page) => {
         let splited = sampletext.split(" ");
         return splited.slice((page - 1) * wordsPerPage, (page) * wordsPerPage).join(" ");
     }
 
     const classes = useStyles();
+    const axiosPrivate = useAxiosPrivate();
     const [sampletext, setSampleText] = React.useState("Ładuję... ... ...");
     const [page, setPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(3);
@@ -104,11 +102,8 @@ export default function Speedmeter() {
     }
 
     const postResult = async () => {
-        await axiosPrivate.post("api/v1/speed-meter-log/save",
+        await axiosPrivate.post(`api/v1/speed-meter-log/save/${auth.appuserid}`,
             {
-                appUser: {
-                    id: auth.appuserid
-                },
                 wordsperminute: Math.ceil(totalWords / (time / 1000 / 60)),
                 date: new Date().toISOString()
             }

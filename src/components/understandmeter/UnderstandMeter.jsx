@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import GaugeChart from 'react-gauge-chart'
-import { minHeight } from '@mui/system';
 import { Button, Pagination, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
 import TextDecreaseIcon from '@mui/icons-material/TextDecrease';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
@@ -21,8 +17,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
-import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 import useCourse from "../../hooks/useCourse";
 import Snackbar from "@mui/material/Snackbar";
@@ -30,6 +24,7 @@ import Alert from "@mui/material/Alert";
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import {Quiz} from "./Quiz";
 import Slide from '@mui/material/Slide';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -65,6 +60,7 @@ export default function UnderstandMeter() {
     }
 
     const classes = useStyles();
+    const axiosPrivate = useAxiosPrivate();
     const [sampletext, setSampleText] = React.useState("Ładuję... ... ...");
     const [page, setPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(3);

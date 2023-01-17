@@ -36,10 +36,9 @@ export const SessionList = (props) => {
 
 
         return (
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%', maxWidth: 450, bgcolor: 'background.paper' }}>
                 {props.session.map((value) => {
                     const labelId = `checkbox-list-label-${value}`;
-
                     return (
                         <ListItem
                             key={'list-item' + value.id}
@@ -62,7 +61,10 @@ export const SessionList = (props) => {
                                         color={"secondary"}
                                     />
                                 </ListItemIcon>
-                                <ListItemText id={labelId} primary={`${value.name} ${value.param1!=-1?', '+value.param1:""} ${value.param2!=-1?', '+value.param2:""}`} />
+                                <ListItemText
+                                    id={labelId}
+                                    primary={`${value.name} ${value.param1!=-1?', '+value.param1:""} ${value.param2!=-1?', '+value.param2:""}`}
+                                />
                             </ListItemButton>
                         </ListItem>
                     );

@@ -7,9 +7,6 @@ import { Routes, Route } from "react-router-dom";
 import Login from './components/common_components/Login';
 import RequireAuth from './components/common_components/RequireAuth';
 import Dashboard from './components/dashboard/Dashboard';
-import { bgcolor } from '@mui/system';
-import {red} from '@mui/material/colors';
-
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline, Paper } from '@mui/material';
 import Register from './components/common_components/Register';

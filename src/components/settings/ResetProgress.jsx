@@ -1,4 +1,3 @@
-import {Typography} from "@material-ui/core";
 import useCourse from "../../hooks/useCourse";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
@@ -12,7 +11,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Snackbar from "@mui/material/Snackbar";
-import {redirect} from "react-router-dom";
+
 
 export const ResetProgress = (props) => {
     const { auth } = useAuth();

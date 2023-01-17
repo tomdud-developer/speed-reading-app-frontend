@@ -7,13 +7,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Link } from "react-router-dom";
 import Image from 'mui-image'
-import { useTheme } from '@mui/material';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import SpeedIcon from '@mui/icons-material/Speed';
 import PsychologyIcon from '@mui/icons-material/Psychology';
@@ -91,7 +86,6 @@ export default function Navigation(props) {
   const toogleActiveCategory = function(id, chId) {
     console.log(id + "   " + chId)
     console.log(categoriesHook)
-    //let copy =  JSON.parse(JSON.stringify(categories));
     for(let i = 0; i < Object.keys(categories).length; i++) {
       setDashboardActive(false);
       for(let j = 0; j < Object.keys(categories[i].children).length; j++) {

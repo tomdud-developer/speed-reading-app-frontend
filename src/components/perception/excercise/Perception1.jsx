@@ -3,29 +3,19 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import GaugeChart from 'react-gauge-chart'
-import { minHeight } from '@mui/system';
 import { Button, Pagination, TextField, Typography, Alert, LinearProgress } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import TextDecreaseIcon from '@mui/icons-material/TextDecrease';
-import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import { makeStyles } from '@material-ui/core';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
-import { axiosPrivate } from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
-import {NumberInputField} from "./NumberInputField";
 import useCourse from "../../../hooks/useCourse";
 import Snackbar from "@mui/material/Snackbar";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 
 export default function Perception1(props) {
@@ -39,6 +29,7 @@ export default function Perception1(props) {
         color: theme.palette.text.secondary,
       }));
 
+    const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const { course } = useCourse();
     const [displayNumber, setDisplayNumber] =  React.useState('???');

@@ -5,22 +5,18 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import {Button, Pagination, Typography, Slider, Alert} from '@mui/material';
 import Stack from '@mui/material/Stack';
-
 import { makeStyles } from '@material-ui/core';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
 import { axiosPrivate } from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
-import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import useCourse from "../../../hooks/useCourse";
 import Snackbar from "@mui/material/Snackbar";
@@ -188,8 +184,10 @@ export default function ColumnsOfNumbers(props) {
     }, [numbersArray, correctNumbersArray, refresh])
 
     React.useEffect(() => {
-        if(points === max)
+        if(points === max) {
+            setRunning(false);
             setOpenDialog(true);
+        }
     }, [points])
 
     const createRandomArray = (rows, cols) => {
@@ -353,7 +351,7 @@ export default function ColumnsOfNumbers(props) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText color="typography.book.color">
-                            Twój wynik to {Math.ceil(time)} sekund.
+                            Twój wynik to {Math.ceil(time/1000)} sekund.
                             Wynik uzyskano dla poziomu {hardLevel}.
                             Czy chcesz zapisać tą wartość?
                         </DialogContentText>

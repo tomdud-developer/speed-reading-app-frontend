@@ -32,6 +32,7 @@ import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import useCourse from "../../hooks/useCourse";
 import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -79,9 +80,10 @@ export default function PointerMedium() {
     const [running, setRunning] = React.useState(false);
     const paused = React.useRef(true);
     const [tweenToogle, setTweenToogle] = React.useState(true);
+    const axiosPrivate = useAxiosPrivate();
 
     React.useEffect(() => {
-        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&500`)
+        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&350`)
             .then(
                 (result) => {
                     setText(result.data.replace("/ {2,}/",""));

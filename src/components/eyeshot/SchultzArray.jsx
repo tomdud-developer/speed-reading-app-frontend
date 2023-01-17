@@ -3,20 +3,14 @@ import { styled, keyframes } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import GaugeChart from 'react-gauge-chart'
-import { minHeight } from '@mui/system';
 import { Button, Pagination, Typography, Slider } from '@mui/material';
 import Stack from '@mui/material/Stack';
-
 import { makeStyles } from '@material-ui/core';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
-import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -73,8 +67,8 @@ export default function SchultzArray(props) {
     const classes = useStyles();
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
-    const [rows, setRows] = React.useState(course.exercises.schultzarray.param1);
-    const [columns, setColumns] = React.useState(course.exercises.schultzarray.param2);
+    const [rows, setRows] = React.useState(course.exercises.schultzarray.param1 ? course.exercises.schultzarray.param1 : 3);
+    const [columns, setColumns] = React.useState(course.exercises.schultzarray.param2 ? course.exercises.schultzarray.param2 : 3);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
     const [content, setContent] = React.useState();
@@ -133,8 +127,6 @@ export default function SchultzArray(props) {
       background: -webkit-linear-gradient(to right, #292E49, #536976, #BBD2C5);
       background: linear-gradient(to right, #292E49, #536976, #BBD2C5); 
     `
-
-
 
 
     React.useEffect(() => {

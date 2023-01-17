@@ -1,27 +1,12 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import GaugeChart from 'react-gauge-chart'
-import { minHeight } from '@mui/system';
-import { Button, Pagination, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import TextDecreaseIcon from '@mui/icons-material/TextDecrease';
-import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import { makeStyles } from '@material-ui/core';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
-import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 import SpeedIcon from '@mui/icons-material/Speed';
 import Tween from 'rc-tween-one';
@@ -32,6 +17,7 @@ import StopCircleIcon from "@mui/icons-material/StopCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import useCourse from "../../hooks/useCourse";
 import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 TweenOne.plugins.push(PathPlugin);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -79,9 +65,10 @@ export default function PointerBasic() {
     const [running, setRunning] = React.useState(false);
     const paused = React.useRef(true);
     const [tweenToogle, setTweenToogle] = React.useState(true);
+    const axiosPrivate = useAxiosPrivate();
 
     React.useEffect(() => {
-        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&500`)
+        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&350`)
             .then(
                 (result) => {
                     setText(result.data.replace("/ {2,}/",""));

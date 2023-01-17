@@ -7,14 +7,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import axios from '../../api/axios';
-import { useTheme } from '@mui/material/styles';
+
 
 const LOGIN_URL = 'api/login';
 
 const Login = () => {
-    const theme = useTheme();
     const { setAuth } = useAuth();
-    console.log("theme LOGIN",theme)
     const userRef = React.useRef();
     const errRef = React.useRef();
     const navigate = useNavigate();
@@ -58,15 +56,7 @@ const Login = () => {
             setPwd('');
             navigate("/dashboard", { replace: true });
         } catch (err) {
-            if (!err.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response.status === 400) {
-                setErrMsg('Missing Username or Password');
-            } else if (err.response.status === 401) {
-                setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Login Failed');
-            }
+            setErrMsg('Błąd logowania');
             errRef.current.focus();
         }
     }

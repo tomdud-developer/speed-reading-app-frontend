@@ -3,20 +3,9 @@ import { styled, keyframes } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import GaugeChart from 'react-gauge-chart'
-import { minHeight } from '@mui/system';
 import { Button, Pagination, Typography, Slider } from '@mui/material';
 import Stack from '@mui/material/Stack';
-
 import { makeStyles } from '@material-ui/core';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
-import { axiosPrivate } from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
@@ -27,6 +16,7 @@ import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import TuneIcon from '@mui/icons-material/Tune';
 import useCourse from "../../hooks/useCourse";
 import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -100,6 +90,7 @@ export default function FonetizationRemover(props) {
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
     const [delay, setDelay] = React.useState(course.exercises.fonetizationremover.param1);
+    const axiosPrivate = useAxiosPrivate();
 
     React.useEffect(() => {
       let interval;
@@ -125,7 +116,7 @@ export default function FonetizationRemover(props) {
     }, [running, delay]);
 
     React.useEffect(() => {
-        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&500`)
+        axiosPrivate.get(`api/v1/pdfuser/get-text/${auth.appuserid}&350`)
         .then(
             (result) => {
                 setText(result.data.replace("/ {2,}/",""));

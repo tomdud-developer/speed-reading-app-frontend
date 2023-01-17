@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom"
 import React from "react"
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Navigation from "./Navigation";
 import Header from "./Header";
@@ -52,9 +51,6 @@ const Layout = () => {
         </>
     )
 }
-
-//<Copyright />
-
 
 export default Layout
 

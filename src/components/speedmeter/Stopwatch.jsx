@@ -9,9 +9,6 @@ export default function Stopwatch(props) {
 
     const [time, setTime] = React.useState(0);
 
-
-
-
     React.useEffect(() => {
       let interval;
       if (props.running) {

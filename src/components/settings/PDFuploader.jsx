@@ -1,17 +1,12 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { Typography } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
 import TextField from '@mui/material/TextField';
-import FormLabel from '@mui/material/FormLabel';
-import { Stack } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import { Button } from '@mui/material'
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function PDFuploader() {
 
@@ -20,6 +15,10 @@ export default function PDFuploader() {
     const [files, setFiles] = React.useState();
     const [formData, setFormData] = React.useState({frompage: 1, topage: 30});
     const [showButton, setShowButton] = React.useState(true);
+    const [snackOpen, setSnackOpen] = React.useState(false);
+    const [severity, setSeverity] = React.useState("error");
+    const [alertMessage, setAlertMessage] = React.useState("Loading");
+
     React.useEffect(() => {
 
     }, []);
@@ -41,12 +40,18 @@ export default function PDFuploader() {
         var fileData = new FormData();
         fileData.append("multipartPdf", files[0]);
         console.log(files[0])
-        axiosPrivate.put(`api/v1/pdfuser/save/${auth.appuserid}&${formData.frompage}&${formData.topage}`, fileData, {
+        axiosPrivate.post(`api/v1/pdfuser/save/${auth.appuserid}&${formData.frompage}&${formData.topage}`, fileData, {
             headers: {
             'Content-Type': 'multipart/form-data'
             }
         }).then((result) => {
-            console.log(result)
+            setAlertMessage("Załadowano tekst do bazy danych.");
+            setSeverity("success");
+            setSnackOpen(true);
+        }).catch((error) => {
+            setAlertMessage("Załadowano tekst do ");
+            setSeverity("error");
+            setSnackOpen(true);
         })
     }
 
@@ -70,6 +75,22 @@ export default function PDFuploader() {
                 </>
             )
             }
+
+            <Snackbar
+                open={snackOpen}
+                autoHideDuration={6000}
+                onClose={() => {setSnackOpen(false);}}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+            >
+                <Alert
+                    onClose={() => {setSnackOpen(false);}}
+                    severity={severity}
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
+
         </>
         
     )

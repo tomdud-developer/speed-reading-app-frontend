@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Label, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Box } from '@material-ui/core';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {Typography, useTheme} from '@mui/material';

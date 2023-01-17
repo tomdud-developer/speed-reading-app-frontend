@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { styled, keyframes } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Pagination, Typography, Slider } from '@mui/material';
+import { Button, Typography, Slider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 import { makeStyles } from '@material-ui/core';
@@ -24,6 +24,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import useCourse from "../../hooks/useCourse";
 import {ConfirmExerciseDone} from "../common_components/ConfirmExerciseDone";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'dark' === 'dark' ? '#1A2027' : '#fff',
@@ -82,7 +83,7 @@ export default function Pyramid(props) {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [refresh, setRefresh] = React.useState(false);
     const [reset, setReset] = React.useState(false);
-
+    const axiosPrivate = useAxiosPrivate();
 
     const CommonArrayElement = styled(Box)`
       

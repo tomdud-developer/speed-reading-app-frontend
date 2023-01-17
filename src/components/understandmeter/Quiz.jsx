@@ -1,6 +1,5 @@
 import * as React from "react";
 import {axiosPrivate} from "../../api/axios";
-import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -23,7 +22,7 @@ export const Quiz = (props) => {
 
     const [questions, setQuestions] = React.useState();
     const [canRun, setCanRun] = React.useState(false);
-    const [answers, setAnswers] = React.useState(['A', 'B']);
+    const [answers, setAnswers] = React.useState(['A','A','A','A','A','A','A','A','A','A']);
     const { auth } = useAuth();
     const { course } = useCourse();
     const [snackOpen, setSnackOpen] = React.useState(false);
@@ -44,10 +43,22 @@ export const Quiz = (props) => {
             );
     }, []);
 
+
+    const calculateResult = () => {
+        let correct = 0;
+        for(let i = 0; i < 10; i++) {
+            if(questions[i].correctAnswer == answers[i])
+                correct ++;
+        }
+        return Math.ceil(correct/10 * 100);
+    }
+
+
+
     const postResult = async () => {
         await axiosPrivate.post(`api/v1/understanding-meter/save/${auth.appuserid}`,
             {
-                percentageOfUnderstanding: 10,
+                percentageOfUnderstanding: calculateResult(),
                 date: new Date().toISOString()
             }
         ).then(() => {
@@ -153,7 +164,7 @@ export const Quiz = (props) => {
                     <DialogContent>
                         <DialogContentText color="typography.book.color">
                             Twój wynik to {props.wordsperminute} słów na minutę.
-                            Twój wynik to {'50%'} Zrozumienia.
+                            Twój wynik to {calculateResult()}% Zrozumienia.
                             Czy chcesz zapisać to w bazie?
                         </DialogContentText>
                     </DialogContent>
