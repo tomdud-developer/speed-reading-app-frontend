@@ -63,7 +63,6 @@ export const Progress = () => {
                                 indexInSession: column.indexInSession,
                             };
                         });
-                        console.log(jsonExercises)
                         setData({
                             ...result1.data,
                             session: result2.data
@@ -96,7 +95,6 @@ export const Progress = () => {
             setSeverity("error");
             setAlertMessage(error.message)
             setSnackOpen(true);
-            console.log(error);
         });
     }
 
@@ -105,8 +103,6 @@ export const Progress = () => {
     }, []);
 
     React.useEffect(() => {
-
-        console.log(data);
     }, [course])
 
 

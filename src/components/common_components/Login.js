@@ -44,7 +44,6 @@ const Login = () => {
                   },
                   withCredentials: false
                 });
-            console.log(JSON.stringify(response.data));
             const accessToken = response.data.access_token;
             const roles = response.data.roles.replace('[','').replace(']','').replace(/\s/g,'').split(",");
             const firstname = response.data.firstname;
