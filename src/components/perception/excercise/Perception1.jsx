@@ -37,7 +37,7 @@ export default function Perception1(props) {
     const [max, setMax] = React.useState(3);
     const [userNumber, setUserNumber] =  React.useState("");
     const [alertState, setAlertState] = React.useState(-1);
-    const [difficulty, setDifficulty] = React.useState(course.exercises.perceptionexercise1.param1);
+    const [difficulty, setDifficulty] = React.useState(course.exercises.perceptionexercise1.param1 ? course.exercises.perceptionexercise1.param1 : 3);
     const [progressGood, setProgressGood] = React.useState(0);
     const [progressBad, setProgressBad] = React.useState(0);
     const [isOnStartButtonDisabled, setIsOnStartButtonDisabled] = React.useState(false);

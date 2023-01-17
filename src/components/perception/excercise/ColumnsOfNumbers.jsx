@@ -70,7 +70,7 @@ export default function ColumnsOfNumbers(props) {
 
     const { auth } = useAuth();
     const { course } = useCourse();
-    const [hardLevel, setHardLevel] = React.useState(course.exercises.perceptionexercise2.param1);
+    const [hardLevel, setHardLevel] = React.useState(course.exercises.perceptionexercise2.param1 ? course.exercises.perceptionexercise2.param1 : 3);
     const [time, setTime] = React.useState(0);
     const [running, setRunning] = React.useState(false);
     const [content, setContent] = React.useState();
