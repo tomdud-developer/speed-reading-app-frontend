@@ -12,7 +12,7 @@ Communication between the two components takes place via the REST API. The syste
 consisting of a database, backend and frontend application was implemented on a home
 server using Docker containerization technology.
 
-**Frontend part repository (README is the same): https://github.com/tomdud-developer/speed-reading-app-backend**
+**Frontend part repository (README is the same): https://github.com/tomdud-developer/speed-reading-app**
 
 ## Tech Stack
 
