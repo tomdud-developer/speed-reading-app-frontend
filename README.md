@@ -1,5 +1,5 @@
 
-# SpeedReadingApp - backend part
+# SpeedReadingApp - frontend part
 
 The work aims to design and create a web application that allows you to learn and
 improve your speed reading skills. The app offers tools to measure reading speed and text
